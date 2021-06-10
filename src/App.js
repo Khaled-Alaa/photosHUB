@@ -1,15 +1,10 @@
-
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import LoginPage from "./pages/LoginPage/index"
-import HomePage from "./pages/HomePage/index"
+import LoginPage from "./pages/LoginPage/index";
+import HomePage from "./pages/HomePage/index";
+import SignupPage from "./pages/SignupPage/index";
 
-import './App.css';
-
-
-
-
-
+import "./App.css";
 
 function App() {
   return (
@@ -17,6 +12,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/" render={(props) => <LoginPage {...props} />} />
+          <Route path="/SignUp" render={(props) => <SignupPage {...props} />} />
           <Route path="/Home" render={() => <HomePage />} />
         </Switch>
       </Router>
