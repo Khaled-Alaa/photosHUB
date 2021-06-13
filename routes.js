@@ -1,6 +1,7 @@
 var fs = require("fs");
 
 const routes = function (app) {
+
   // check user route
   app.post("/login", function (request, response) {
     fs.readFile("data.json", "utf8", function (err, data) {
@@ -19,7 +20,7 @@ const routes = function (app) {
     });
   });
 
-  // check user route
+  // create new user
   app.post("/signup", function (request, response) {
     fs.readFile("data.json", "utf8", function (err, data) {
       if (err) throw err;
