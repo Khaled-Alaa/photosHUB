@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage/index";
-import HomePage from "./pages/HomePage/index";
+import Layout from "./layout/PrivateLayout/index";
 import SignupPage from "./pages/SignupPage/index";
 
 import "./App.css";
@@ -13,7 +13,7 @@ function App() {
         <Switch>
           <Route exact path="/" render={(props) => <LoginPage {...props} />} />
           <Route path="/SignUp" render={(props) => <SignupPage {...props} />} />
-          <Route path="/Home" render={() => <HomePage />} />
+          <Route path="/Home" render={(props) => <Layout {...props} />} />
         </Switch>
       </Router>
     </div>

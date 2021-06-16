@@ -12,8 +12,16 @@ class Header extends Component {
         <img src={Logo} alt="logo" className="Header__logo" />
         <h5 className="Header__site-title">Photos HUB</h5>
         <Link to="/signup" className="Header__user-name">
-          user name
+          {this.props.userName}
         </Link>
+        <span className="Header__profilePictureCropper">
+          <img
+            src={this.props.profilePicture}
+            alt="profilePicture"
+            className="Header__profilePicture"
+          />
+        </span>
+
         <Link to="/">
           <i className="fas fa-sign-out-alt Header__logout-icon"></i>
         </Link>
