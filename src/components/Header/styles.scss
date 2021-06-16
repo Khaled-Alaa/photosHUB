@@ -11,6 +11,21 @@
   }
   &__site-title {
   }
+  &__profilePictureCropper {
+    margin: 0 0.5rem;
+    width: 3rem;
+    height: 3rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  &__profilePicture {
+    display: inline;
+    margin: 0 auto;
+    margin-left: -17%; //centers the image
+    height: 100%;
+    width: auto;
+  }
   &__user-name {
     margin-left: auto;
   }

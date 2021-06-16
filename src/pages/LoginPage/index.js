@@ -10,6 +10,7 @@ class LoginPage extends Component {
   state = {
     email: "",
     password: "",
+    id: 0,
   };
 
   handleEmail = (e) => {
@@ -32,8 +33,19 @@ class LoginPage extends Component {
         password: this.state.password,
       })
       .then((resp) => {
-        if (resp.data === "OK") {
+        if (resp.statusText === "OK") {
+          this.setState({
+            id: resp.data.id,
+          });
+
+          localStorage.setItem("id", this.state.id);
+
           this.props.history.push("/Home");
+
+          // this.props.history.push({
+          //   pathname: "/Home",
+          //   userName: this.state.name,
+          // });
         }
       })
       .catch((error) => {
@@ -75,7 +87,9 @@ class LoginPage extends Component {
           value="Login"
           className="form-container__button"
         ></input>
-        <Link to="/SignUp" className="form-container__signup">New User?</Link>
+        <Link to="/SignUp" className="form-container__signup">
+          New User?
+        </Link>
       </form>
     );
   }

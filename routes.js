@@ -1,7 +1,6 @@
 var fs = require("fs");
 
 const routes = function (app) {
-
   // check user route
   app.post("/login", function (request, response) {
     fs.readFile("data.json", "utf8", function (err, data) {
@@ -13,7 +12,7 @@ const routes = function (app) {
           request.body.password === user.password
       );
       if (user) {
-        response.sendStatus(200);
+        response.status(200).send(user);
       } else {
         response.sendStatus(400);
       }
@@ -67,6 +66,40 @@ const routes = function (app) {
           }
         });
         //response.send(newUser);
+      }
+    });
+  });
+
+  // get photo for card
+  app.get("/photos/:userId", function (request, response) {
+    fs.readFile("data.json", "utf8", function (err, data) {
+      if (err) throw err;
+      const parsedData = JSON.parse(data);
+      photo = parsedData.photos.find((photo) =>
+        photo.userId == request.params.userId ? photo : null
+      );
+      if (photo) {
+        response.status(200).send(photo);
+      } else {
+        response.sendStatus(400);
+      }
+    });
+  });
+
+  // get signed user
+  app.get("/users/:userId", function (request, response) {
+    fs.readFile("data.json", "utf8", function (err, data) {
+      debugger;
+      if (err) throw err;
+      debugger;
+      const parsedData = JSON.parse(data);
+      user = parsedData.users.find((user) =>
+        user.id == request.params.userId ? user : null
+      );
+      if (user) {
+        response.status(200).send(user);
+      } else {
+        response.sendStatus(400);
       }
     });
   });
