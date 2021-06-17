@@ -70,16 +70,52 @@ const routes = function (app) {
     });
   });
 
-  // get photo for card
+  // get photos of user
   app.get("/photos/:userId", function (request, response) {
     fs.readFile("data.json", "utf8", function (err, data) {
       if (err) throw err;
       const parsedData = JSON.parse(data);
       photo = parsedData.photos.find((photo) =>
-        photo.userId == request.params.userId ? photo : null
+        photo.authorId == request.params.userId ? photo : null
       );
       if (photo) {
         response.status(200).send(photo);
+      } else {
+        response.sendStatus(400);
+      }
+    });
+  });
+
+  // get photos
+
+  app.get("/photos", function (request, response) {
+    fs.readFile("data.json", "utf8", function (err, data) {
+      if (err) throw err;
+      const parsedData = JSON.parse(data);
+
+      const tempPhotosArr = parsedData.photos.map((photo) => {
+        const author = parsedData.users.find(
+          (user) => user.id == photo.authorId
+        );
+        const comments = photo.comments.map((userComment) => {
+          const authorComment = parsedData.users.find(
+            (user) => user.id == userComment.userId
+          );
+          return {
+            authorComment,
+            ...userComment
+          };
+        });
+
+        return {
+          author: author,
+          // authorComment: authorComment,
+          ...photo,
+          comments
+        };
+      });
+      if (parsedData.photos) {
+        response.status(200).send(tempPhotosArr);
       } else {
         response.sendStatus(400);
       }

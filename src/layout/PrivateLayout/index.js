@@ -37,7 +37,7 @@ class Layout extends Component {
           userName={this.state.userName}
           profilePicture={this.state.userPhoto}
         />
-        <HomePage />
+        <HomePage userId={this.state.userId}/>
       </div>
     );
   }
