@@ -103,7 +103,7 @@ const routes = function (app) {
           );
           return {
             authorComment,
-            ...userComment
+            ...userComment,
           };
         });
 
@@ -111,7 +111,8 @@ const routes = function (app) {
           author: author,
           // authorComment: authorComment,
           ...photo,
-          comments
+          // comments are array of objects of authorComment and user comment
+          comments,
         };
       });
       if (parsedData.photos) {
@@ -125,9 +126,7 @@ const routes = function (app) {
   // get signed user
   app.get("/users/:userId", function (request, response) {
     fs.readFile("data.json", "utf8", function (err, data) {
-      debugger;
       if (err) throw err;
-      debugger;
       const parsedData = JSON.parse(data);
       user = parsedData.users.find((user) =>
         user.id == request.params.userId ? user : null
@@ -136,6 +135,54 @@ const routes = function (app) {
         response.status(200).send(user);
       } else {
         response.sendStatus(400);
+      }
+    });
+  });
+
+  // post comment
+  app.post("/postComment", function (request, response) {
+    fs.readFile("data.json", "utf8", function (err, data) {
+      if (err) throw err;
+      const parsedData = JSON.parse(data);
+      photo = parsedData.photos.find((photo) =>
+        photo.id == request.body.imageId ? photo : null
+      );
+
+      photoIndex = parsedData.photos.findIndex((photo) =>
+        photo.id == request.body.imageId ? photo : null
+      );
+
+      if (photo) {
+        const newComment = {
+          userId: request.body.commentAuhtorId,
+          comment: request.body.comment,
+        };
+
+        //to add new cooment to the json file
+        const addedComment =
+          parsedData.photos[photoIndex].comments.push(newComment);
+        debugger;
+        //to convert json file to string
+        const jsonString = JSON.stringify(parsedData);
+        // to convert the string data to binary and save it in memory
+        const data = new Uint8Array(Buffer.from(jsonString));
+        fs.writeFile("./data.json", data, (err) => {
+          if (err) {
+            response.status(380).send({
+              error: {
+                code: 10,
+                message: "couldn't write in file :(",
+              },
+            });
+          } else {
+            response.status(200).send({
+              error: {
+                code: 200,
+                message: "The file has been saved :)",
+              },
+            });
+          }
+        });
       }
     });
   });

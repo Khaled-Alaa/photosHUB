@@ -18,14 +18,22 @@
   &__userPicture {
     max-width: 100%;
     border-radius: 8px;
-    margin-bottom: 0.5rem;
+    margin: 0.5rem 0;
   }
   &__reactions-container {
     display: flex;
+    &__like-button {
+      color: blue;
+      margin-right: 0.5rem;
+    }
+    &__dislike-button {
+      color: red;
+    }
   }
+
   &__comments-container {
     padding: 0.5rem;
-    margin: 0.5rem 0;
+    margin-top: 0.5rem;
     max-width: 100%;
     background: #dfdede;
     border-radius: 8px;
@@ -39,5 +47,25 @@
   &__author-comment {
     display: flex;
     align-items: center;
+    margin: 0.5rem 0;
+  }
+  &__input-comment {
+    width: 90%;
+    margin-bottom: 0.5rem;
+    height: 1.5rem;
+    border-radius: 3px;
+    border-style: solid;
+  }
+  &__post-button {
+    width: 15%;
+    margin: 0 0 0.5rem 0.5rem;
+    height: 2rem;
+    background-color: #5c5cf6;
+    border-radius: 3px;
+    border-style: hidden;
+    color: white;
+    &:hover {
+      background-color: #4646ec;
+    }
   }
 }

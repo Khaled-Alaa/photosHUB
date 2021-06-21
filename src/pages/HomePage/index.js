@@ -6,8 +6,7 @@ class HomePage extends Component {
   render() {
     return (
       <div>
-        Home Page
-        <Card />
+        <Card user={this.props.user} />
       </div>
     );
   }

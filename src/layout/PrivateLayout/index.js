@@ -8,8 +8,7 @@ import "./styles.scss";
 class Layout extends Component {
   state = {
     userId: "",
-    userName: "",
-    userPhoto: "",
+    user: {},
   };
 
   componentDidMount() {
@@ -19,8 +18,7 @@ class Layout extends Component {
       .get(`http://localhost:5000/users/${userId}`)
       .then((resp) => {
         this.setState({
-          userName: resp.data.name,
-          userPhoto: resp.data.profilePicture,
+          user: resp.data,
         });
       })
       .catch((error) => {
@@ -33,11 +31,11 @@ class Layout extends Component {
 
     return (
       <div>
-        <Header
-          userName={this.state.userName}
-          profilePicture={this.state.userPhoto}
+        <Header user={this.state.user} />
+        <HomePage
+          user={this.state.user}
+          // userId={this.state.userId}
         />
-        <HomePage userId={this.state.userId}/>
       </div>
     );
   }

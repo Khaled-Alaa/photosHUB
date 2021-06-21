@@ -12,11 +12,11 @@ class Header extends Component {
         <img src={Logo} alt="logo" className="Header__logo" />
         <h5 className="Header__site-title">Photos HUB</h5>
         <Link to="/signup" className="Header__user-name">
-          {this.props.userName}
+          {this.props.user.name}
         </Link>
         <span className="Header__profilePictureCropper">
           <img
-            src={this.props.profilePicture}
+            src={this.props.user.profilePicture}
             alt="profilePicture"
             className="Header__profilePicture"
           />
