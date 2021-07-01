@@ -2,8 +2,6 @@ import { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-import Logo from "../../../src/creative-idea-box-logo-260nw-485822293.png";
-
 import "./styles.scss";
 
 class SignupPage extends Component {
@@ -13,24 +11,10 @@ class SignupPage extends Component {
     birthdate: "",
     password: "",
   };
-  handleName = (e) => {
+
+  handleChange = (e) => {
     this.setState({
-      name: e.target.value,
-    });
-  };
-  handleEmail = (e) => {
-    this.setState({
-      email: e.target.value,
-    });
-  };
-  handleBirthDate = (e) => {
-    this.setState({
-      birthdate: e.target.value,
-    });
-  };
-  handlePassword = (e) => {
-    this.setState({
-      password: e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -45,6 +29,7 @@ class SignupPage extends Component {
       })
       .then((resp) => {
         if (resp.statusText === "OK") {
+          localStorage.setItem("id", resp.data.user.id);
           this.props.history.push("/Home");
         }
       })
@@ -55,18 +40,18 @@ class SignupPage extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="form-container">
-        <img src={Logo} alt="logo" />
-        <h6 className="form-container__site-name">Photos HUB</h6>
-        <h6 className="form-container__slogan">Share Your Photos Every Day!</h6>
+      <form onSubmit={this.handleSubmit} className="signup-form-container">
+        <img src="assets/images/creative-idea-box-logo-260nw-485822293.png" alt="logo" />
+        <h6 className="signup-form-container__site-name">Photos HUB</h6>
+        <h6 className="signup-form-container__slogan">Share Your Photos Every Day!</h6>
         <h5 htmlFor="name">Name:</h5>
         <input
           type="text"
           id="name"
           name="name"
           placeholder="Your Name"
-          onChange={this.handleName}
-          className="form-container__input"
+          onChange={this.handleChange}
+          className="signup-form-container__input"
           required
         ></input>
         <h5 htmlFor="email">Email:</h5>
@@ -75,8 +60,8 @@ class SignupPage extends Component {
           id="email"
           name="email"
           placeholder="Your Email"
-          onChange={this.handleEmail}
-          className="form-container__input"
+          onChange={this.handleChange}
+          className="signup-form-container__input"
           required
         ></input>
         <h5 htmlFor="birthdate">Birth Date:</h5>
@@ -84,8 +69,8 @@ class SignupPage extends Component {
           type="date"
           id="birthdate"
           name="birthdate"
-          onChange={this.handleBirthDate}
-          className="form-container__input"
+          onChange={this.handleChange}
+          className="signup-form-container__input"
           required
         ></input>
         <h5 htmlFor="password">Password:</h5>
@@ -95,17 +80,13 @@ class SignupPage extends Component {
           name="password"
           placeholder="Your Password"
           minLength="8"
-          onChange={this.handlePassword}
-          className="form-container__input"
+          onChange={this.handleChange}
+          className="signup-form-container__input"
           required
         ></input>
         <br />
-        <input
-          type="submit"
-          value="SignUp"
-          className="form-container__button"
-        ></input>
-        <Link to="/" className="form-container__login">
+        <input type="submit" value="SignUp" className="signup-form-container__button"></input>
+        <Link to="/" className="signup-form-container__login">
           Already on PhotosHUB?
         </Link>
       </form>

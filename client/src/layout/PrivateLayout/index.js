@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import axios from "axios";
+
 import Header from "../../components/Header/index";
 import HomePage from "../../pages/HomePage/index";
-import axios from "axios";
 
 import "./styles.scss";
 
@@ -13,7 +14,6 @@ class Layout extends Component {
 
   componentDidMount() {
     const userId = localStorage.getItem("id");
-    this.setState({ userId });
     axios
       .get(`http://localhost:5000/users/${userId}`)
       .then((resp) => {
@@ -27,15 +27,10 @@ class Layout extends Component {
   }
 
   render() {
-    // const { userName } = this.props.location;
-
     return (
       <div>
         <Header user={this.state.user} />
-        <HomePage
-          user={this.state.user}
-          // userId={this.state.userId}
-        />
+        <HomePage user={this.state.user} />
       </div>
     );
   }
