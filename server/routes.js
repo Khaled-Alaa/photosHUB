@@ -52,20 +52,47 @@ const routes = function (app) {
   });
 
   // get photos of user
-  // app.get("users/:userId/photos", function (request, response) {
-  //   fs.readFile("./data.json", "utf8", function (err, data) {
-  //     if (err) throw err;
-  //     const parsedData = JSON.parse(data);
-  //     photo = parsedData.photos.find((photo) =>
-  //       photo.authorId == request.params.userId ? photo : null
-  //     );
-  //     if (photo) {
-  //       response.status(200).send(photo);
-  //     } else {
-  //       response.sendStatus(400);
-  //     }
-  //   });
-  // });
+  app.get("/users/:userId/photos", function (request, response) {
+    fs.readFile("./data/photos.json", "utf8", function (err1, photosData) {
+      fs.readFile("./data/users.json", "utf8", function (err, usersData) {
+        const parsedPhotos = JSON.parse(photosData);
+        const parsedUsers = JSON.parse(usersData);
+
+        const tempPhotosArr = [];
+        parsedPhotos.forEach((photo) => {
+          if (photo.authorId == request.params.userId) {
+            const author = parsedUsers.find(
+              (user) => user.id == photo.authorId
+            );
+
+            const comments = photo.comments.map((userComment) => {
+              const authorComment = parsedUsers.find(
+                (user) => user.id == userComment.userId
+              );
+              return {
+                authorComment,
+                ...userComment,
+              };
+            });
+
+            tempPhotosArr.push({
+              author: author,
+              // authorComment: authorComment,
+              ...photo,
+              // comments are array of objects of authorComment and user comment
+              comments,
+            });
+          }
+        });
+
+        if (tempPhotosArr) {
+          response.status(200).send(tempPhotosArr);
+        } else {
+          response.sendStatus(400);
+        }
+      });
+    });
+  });
 
   // get photos
   app.get("/photos", function (request, response) {

@@ -1,31 +1,28 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import axios from "axios";
 
 import Card from "../../components/Card/index";
 
 import "./styles.scss";
 
-class HomePage extends Component {
+class ProfilePage extends Component {
   state = {
-    photosData: [],
+    userPhotos: [],
     photoCommentsById: {},
   };
+  componentDidMount() {
+    const userId = localStorage.getItem("id");
 
-  getAllPhotos() {
     axios
-      .get("http://localhost:5000/photos")
+      .get(`http://localhost:5000/users/${userId}/photos`)
       .then((resp) => {
         this.setState({
-          photosData: resp.data,
+          userPhotos: resp.data,
         });
       })
       .catch((error) => {
         console.log(error);
       });
-  }
-  
-  componentDidMount() {
-    this.getAllPhotos();
   }
 
   onLikeClick(string) {
@@ -44,7 +41,6 @@ class HomePage extends Component {
         comment: this.state.photoCommentsById[photoId],
       })
       .then((resp) => {
-        debugger;
         if (resp.statusText === "OK") {
           this.setState({
             photoCommentsById: {
@@ -58,19 +54,15 @@ class HomePage extends Component {
         alert("failed to post comment!");
       });
   }
-
   onChangeComment(e, photo) {
     this.setState({ photoCommentsById: { [photo.id]: e.target.value } });
   }
-
   render() {
-    return this.state.photosData.map((photo) => (
-      
+    return this.state.userPhotos.map((photo) => (
       <Card
         user={this.props.user}
         photo={photo}
         handleReactionsClick={this.onLikeClick}
-        // photoPostId={this.state.photoPostId}
         handleComment={this.onChangeComment.bind(this)}
         comment={this.state.photoCommentsById[photo.id]}
         handlePostComment={this.onCommentClick.bind(this)}
@@ -79,4 +71,4 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage;
+export default ProfilePage;

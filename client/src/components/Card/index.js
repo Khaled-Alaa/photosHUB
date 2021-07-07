@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 import "./styles.scss";
 
@@ -78,16 +77,16 @@ class Card extends Component {
           </i>
         </div>
         {/* /////////////////// */}
-        {this.props.photo.comments.map((pho) => (
-          <div className="card__comments-container" key={pho.authorComment.id}>
+        {this.props.photo.comments.map((comment) => (
+          <div className="card__comments-container" key={comment.authorComment.id}>
             <img
-              src={pho.authorComment.profilePicture}
+              src={comment.authorComment.profilePicture}
               alt="logo"
               className="card__profilePicture"
             />
             <div className="card__comments-container__comment">
-              <span>{pho.authorComment.name}</span>
-              <span>{pho.comment}</span>
+              <span>{comment.authorComment.name}</span>
+              <span>{comment.comment}</span>
             </div>
           </div>
         ))}
