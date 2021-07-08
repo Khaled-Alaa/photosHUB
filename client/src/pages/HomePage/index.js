@@ -44,7 +44,6 @@ class HomePage extends Component {
         comment: this.state.photoCommentsById[photoId],
       })
       .then((resp) => {
-        debugger;
         if (resp.statusText === "OK") {
           this.setState({
             photoCommentsById: {

@@ -17,7 +17,6 @@ function getPhotos(cb) {
   fs.readFile("./data/photos.json", "utf8", function (err, data) {
     if (err) response.send(err);
     const parsedData = JSON.parse(data);
-
     cb(parsedData);
   });
 }
@@ -40,7 +39,6 @@ function postNewComment(photos, cb) {
   const data = new Uint8Array(Buffer.from(jsonString));
   fs.writeFile("./data/photos.json", data, (err) => {
     cb(err);
-    debugger;
   });
 }
 module.exports = { getUsers, getPhotos, saveNewUser, postNewComment };

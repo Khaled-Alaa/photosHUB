@@ -12,7 +12,9 @@ class Header extends Component {
     return (
       <div className="Header">
         <img src="assets/images/logo2.png" alt="logo" className="Header__logo" />
-        <h5 className="Header__site-title">Photos HUB</h5>
+        <Link to="/Home">
+          <h5 className="Header__site-title">Photos HUB</h5>
+        </Link>
         <Link to="/Profile" className="Header__user-name">
           {user.name}
         </Link>

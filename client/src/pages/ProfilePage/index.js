@@ -10,7 +10,8 @@ class ProfilePage extends Component {
     userPhotos: [],
     photoCommentsById: {},
   };
-  componentDidMount() {
+
+  getuserPhotos() {
     const userId = localStorage.getItem("id");
 
     axios
@@ -23,6 +24,10 @@ class ProfilePage extends Component {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  componentDidMount() {
+    this.getuserPhotos();
   }
 
   onLikeClick(string) {
@@ -47,7 +52,7 @@ class ProfilePage extends Component {
               [photoId]: "",
             },
           });
-          this.getAllPhotos();
+          this.getuserPhotos();
         }
       })
       .catch((error) => {

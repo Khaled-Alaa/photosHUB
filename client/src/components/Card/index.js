@@ -3,52 +3,8 @@ import React, { Component } from "react";
 import "./styles.scss";
 
 class Card extends Component {
-  // state = {
-  //   photosData: [],
-  //   photoPostId: "",
-  // };
-
-  // componentDidMount() {
-  //   axios
-  //     .get("http://localhost:5000/photos")
-  //     .then((resp) => {
-  //       this.setState({
-  //         photosData: resp.data,
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
-
-  // onLikeClick() {
-  //   alert("like");
-  // }
-
-  // onCommentClick(photoPostId) {
-  //   axios
-  //     .post("http://localhost:5000/photos/comment", {
-  //       imageId: photoPostId,
-  //       commentAuhtorId: this.props.user.id,
-  //       comment: this.state[photoPostId],
-  //     })
-  //     .then((resp) => {
-  //       debugger;
-  //       if (resp.statusText === "OK") {
-  //         this.setState({
-  //           [photoPostId]: "",
-  //         });
-  //         this.componentDidMount();
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       alert("failed to post comment!");
-  //     });
-  // }
-
   render() {
     return (
-      // this.props.photos.map((photo) => (
       <div className="card" key={this.props.photo.id}>
         <div className="card__author-container">
           <img
@@ -111,7 +67,6 @@ class Card extends Component {
           </button>
         </div>
       </div>
-      // ));
     );
   }
 }

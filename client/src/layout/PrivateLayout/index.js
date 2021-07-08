@@ -16,7 +16,6 @@ class Layout extends Component {
 
   componentDidMount() {
     const userId = localStorage.getItem("id");
-    debugger;
     axios
       .get(`http://localhost:5000/users/${userId}`)
       .then((resp) => {

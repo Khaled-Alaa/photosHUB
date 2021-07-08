@@ -52,6 +52,37 @@ function getAllPhotos(cb) {
   });
 }
 
+function getUserPhotos(userId, cb) {
+  dataLayer.getPhotos(function (photos) {
+    dataLayer.getUsers(function (users) {
+      const tempPhotosArr = [];
+      photos.forEach((photo) => {
+        if (photo.authorId == userId) {
+          const author = users.find((user) => user.id == photo.authorId);
+          const comments = photo.comments.map((userComment) => {
+            const authorComment = users.find(
+              (user) => user.id == userComment.userId
+            );
+            return {
+              authorComment,
+              ...userComment,
+            };
+          });
+
+          tempPhotosArr.push({
+            author: author,
+            // authorComment: authorComment,
+            ...photo,
+            // comments are array of objects of authorComment and user comment
+            comments,
+          });
+        }
+      });
+      cb(tempPhotosArr);
+    });
+  });
+}
+
 function saveNewUser(name, email, birthdate, password, cb) {
   dataLayer.getUsers(function (users) {
     const user = users.find((user) => email === user.email);
@@ -95,7 +126,6 @@ function postNewComment(imageId, commentAuhtorId, comment, cb) {
       //to add new cooment to the json file
       photos[photoIndex].comments.push(newComment);
       dataLayer.postNewComment(photos, function (err) {
-        debugger;
         if (err) {
           cb(err, null);
         } else {
@@ -110,6 +140,7 @@ module.exports = {
   checkExisitingUser,
   getUserById,
   getAllPhotos,
+  getUserPhotos,
   saveNewUser,
   postNewComment,
 };
