@@ -164,11 +164,6 @@ function postReaction(reaction, reactUser, reactPhoto, cb) {
           }
         });
       } else {
-        const newReaction = {
-          type: reaction,
-          userId: reactUser.id,
-          name: reactUser.name,
-        };
         photos[photoIndex].reactions[reactionIndex].type = reaction;
         dataLayer.postReaction(photos, function (err) {
           if (err) {

@@ -28,75 +28,39 @@ class HomePage extends Component {
     this.getAllPhotos();
   }
 
+  postReaction(reaction, user, reactphoto) {
+    axios
+      .post("http://localhost:5000/photos/reaction", {
+        type: reaction,
+        user: user,
+        photo: reactphoto,
+      })
+      .then((resp) => {
+        debugger;
+        this.getAllPhotos();
+      })
+      .catch((error) => {
+        alert("failed to post react!");
+      });
+  }
+
   onReactClick(reaction, user, reactphoto) {
     const photo = this.state.photosData.find((photo) => (photo.id == reactphoto.id ? photo : null));
     const exist = photo.reactions.find((reactItem) =>
       reactItem.userId == user.id ? reactItem : null
     );
     if (!exist) {
-      axios
-        .post("http://localhost:5000/photos/reaction", {
-          type: reaction,
-          user: user,
-          photo: reactphoto,
-        })
-        .then((resp) => {
-          debugger;
-          this.getAllPhotos();
-        })
-        .catch((error) => {
-          alert("failed to post react!");
-        });
+      this.postReaction(reaction, user, reactphoto);
     } else {
       if (exist.type == reaction) {
         reaction = "remove";
-        axios
-          .post("http://localhost:5000/photos/reaction", {
-            type: reaction,
-            user: user,
-            photo: reactphoto,
-          })
-          .then((resp) => {
-            debugger;
-            this.getAllPhotos();
-          })
-          .catch((error) => {
-            alert("failed to post react!");
-          });
+        this.postReaction(reaction, user, reactphoto);
       } else {
-        axios
-          .post("http://localhost:5000/photos/reaction", {
-            type: reaction,
-            user: user,
-            photo: reactphoto,
-          })
-          .then((resp) => {
-            debugger;
-            this.getAllPhotos();
-          })
-          .catch((error) => {
-            alert("failed to post react!");
-          });
+        this.postReaction(reaction, user, reactphoto);
       }
-      // console.log(this.state.photosData);
-      // console.log(photo);
-      // console.log(exist);
-
-      // axios
-      //   .post("http://localhost:5000/photos/reaction", {
-      //     react: react,
-      //     user: user,
-      //     photo: reactphoto,
-      //   })
-      //   .then((resp) => {
-      //     debugger;
-      //     this.getAllPhotos();
-      //   })
-      //   .catch((error) => {
-      //     alert("failed to post react!");
-      //   });
     }
   }
+  
   onCommentClick(photoId) {
     axios
       .post("http://localhost:5000/photos/comment", {
