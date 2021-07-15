@@ -23,19 +23,44 @@ class HomePage extends Component {
         console.log(error);
       });
   }
-  
+
   componentDidMount() {
     this.getAllPhotos();
   }
 
-  onLikeClick(string) {
-    if (string == "like") {
-      alert("like");
-    } else {
-      alert("dislike");
-    }
+  postReaction(reaction, user, reactphoto) {
+    axios
+      .post("http://localhost:5000/photos/reaction", {
+        type: reaction,
+        user: user,
+        photo: reactphoto,
+      })
+      .then((resp) => {
+        debugger;
+        this.getAllPhotos();
+      })
+      .catch((error) => {
+        alert("failed to post react!");
+      });
   }
 
+  onReactClick(reaction, user, reactphoto) {
+    const photo = this.state.photosData.find((photo) => (photo.id == reactphoto.id ? photo : null));
+    const exist = photo.reactions.find((reactItem) =>
+      reactItem.userId == user.id ? reactItem : null
+    );
+    if (!exist) {
+      this.postReaction(reaction, user, reactphoto);
+    } else {
+      if (exist.type == reaction) {
+        reaction = "remove";
+        this.postReaction(reaction, user, reactphoto);
+      } else {
+        this.postReaction(reaction, user, reactphoto);
+      }
+    }
+  }
+  
   onCommentClick(photoId) {
     axios
       .post("http://localhost:5000/photos/comment", {
@@ -44,7 +69,6 @@ class HomePage extends Component {
         comment: this.state.photoCommentsById[photoId],
       })
       .then((resp) => {
-        debugger;
         if (resp.statusText === "OK") {
           this.setState({
             photoCommentsById: {
@@ -68,7 +92,7 @@ class HomePage extends Component {
       <Card
         user={this.props.user}
         photo={photo}
-        handleReactionsClick={this.onLikeClick}
+        handleReactionsClick={this.onReactClick.bind(this)}
         // photoPostId={this.state.photoPostId}
         handleComment={this.onChangeComment.bind(this)}
         comment={this.state.photoCommentsById[photo.id]}

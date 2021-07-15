@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Switch, Route } from "react-router-dom";
 
 import Header from "../../components/Header/index";
 import HomePage from "../../pages/HomePage/index";
+import ProfilePage from "../../pages/ProfilePage/index";
 
 import "./styles.scss";
 
@@ -30,7 +32,14 @@ class Layout extends Component {
     return (
       <div>
         <Header user={this.state.user} />
-        <HomePage user={this.state.user} />
+        <Switch>
+          <Route path="/Home">
+            <HomePage user={this.state.user} />
+          </Route>
+          <Route path="/Profile">
+            <ProfilePage user={this.state.user} />
+          </Route>
+        </Switch>
       </div>
     );
   }
