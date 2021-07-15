@@ -23,19 +23,80 @@ class HomePage extends Component {
         console.log(error);
       });
   }
-  
+
   componentDidMount() {
     this.getAllPhotos();
   }
 
-  onLikeClick(string) {
-    if (string === "like") {
-      alert("like");
+  onReactClick(reaction, user, reactphoto) {
+    const photo = this.state.photosData.find((photo) => (photo.id == reactphoto.id ? photo : null));
+    const exist = photo.reactions.find((reactItem) =>
+      reactItem.userId == user.id ? reactItem : null
+    );
+    if (!exist) {
+      axios
+        .post("http://localhost:5000/photos/reaction", {
+          type: reaction,
+          user: user,
+          photo: reactphoto,
+        })
+        .then((resp) => {
+          debugger;
+          this.getAllPhotos();
+        })
+        .catch((error) => {
+          alert("failed to post react!");
+        });
     } else {
-      alert("dislike");
+      if (exist.type == reaction) {
+        reaction = "remove";
+        axios
+          .post("http://localhost:5000/photos/reaction", {
+            type: reaction,
+            user: user,
+            photo: reactphoto,
+          })
+          .then((resp) => {
+            debugger;
+            this.getAllPhotos();
+          })
+          .catch((error) => {
+            alert("failed to post react!");
+          });
+      } else {
+        axios
+          .post("http://localhost:5000/photos/reaction", {
+            type: reaction,
+            user: user,
+            photo: reactphoto,
+          })
+          .then((resp) => {
+            debugger;
+            this.getAllPhotos();
+          })
+          .catch((error) => {
+            alert("failed to post react!");
+          });
+      }
+      // console.log(this.state.photosData);
+      // console.log(photo);
+      // console.log(exist);
+
+      // axios
+      //   .post("http://localhost:5000/photos/reaction", {
+      //     react: react,
+      //     user: user,
+      //     photo: reactphoto,
+      //   })
+      //   .then((resp) => {
+      //     debugger;
+      //     this.getAllPhotos();
+      //   })
+      //   .catch((error) => {
+      //     alert("failed to post react!");
+      //   });
     }
   }
-
   onCommentClick(photoId) {
     axios
       .post("http://localhost:5000/photos/comment", {
@@ -64,11 +125,10 @@ class HomePage extends Component {
 
   render() {
     return this.state.photosData.map((photo) => (
-      
       <Card
         user={this.props.user}
         photo={photo}
-        handleReactionsClick={this.onLikeClick}
+        handleReactionsClick={this.onReactClick.bind(this)}
         // photoPostId={this.state.photoPostId}
         handleComment={this.onChangeComment.bind(this)}
         comment={this.state.photoCommentsById[photo.id]}

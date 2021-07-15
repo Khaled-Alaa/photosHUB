@@ -3,6 +3,11 @@ import React, { Component } from "react";
 import "./styles.scss";
 
 class Card extends Component {
+  getReactions(clickedReact) {
+    const newArray = this.props.photo.reactions.filter((react) => react.type == clickedReact);
+    const length = newArray.length;
+    return length;
+  }
   render() {
     return (
       <div className="card" key={this.props.photo.id}>
@@ -21,15 +26,19 @@ class Card extends Component {
         <div className="card__reactions-container">
           <i
             className="fas fa-heart card__reactions-container__like-button"
-            onClick={(e) => this.props.handleReactionsClick("like")}
+            onClick={(e) =>
+              this.props.handleReactionsClick("like", this.props.user, this.props.photo)
+            }
           >
-            {this.props.photo.like.length}
+            {this.getReactions("like")}
           </i>
           <i
             className="fas fa-heart-broken card__reactions-container__dislike-button"
-            onClick={(e) => this.props.handleReactionsClick("dislike")}
+            onClick={(e) =>
+              this.props.handleReactionsClick("dislike", this.props.user, this.props.photo)
+            }
           >
-            {this.props.photo.disLike.length}
+            {this.getReactions("dislike")}
           </i>
         </div>
         {/* /////////////////// */}

@@ -136,6 +136,60 @@ function postNewComment(imageId, commentAuhtorId, comment, cb) {
   });
 }
 
+function postReaction(reaction, reactUser, reactPhoto, cb) {
+  dataLayer.getPhotos(function (photos) {
+    photo = photos.find((photo) => (photo.id == reactPhoto.id ? photo : null));
+    photoIndex = photos.findIndex((photo) =>
+      photo.id == reactPhoto.id ? photo : null
+    );
+    reactionIndex = photo.reactions.findIndex((react) =>
+      react.userId == reactUser.id ? react : null
+    );
+    existReaction = photo.reactions.find((react) =>
+      react.userId == reactUser.id ? react : null
+    );
+    if (reaction != "remove") {
+      if (!existReaction) {
+        const newReaction = {
+          type: reaction,
+          userId: reactUser.id,
+          name: reactUser.name,
+        };
+        photos[photoIndex].reactions.push(newReaction);
+        dataLayer.postReaction(photos, function (err) {
+          if (err) {
+            cb(err, null);
+          } else {
+            cb(null, "succes");
+          }
+        });
+      } else {
+        const newReaction = {
+          type: reaction,
+          userId: reactUser.id,
+          name: reactUser.name,
+        };
+        photos[photoIndex].reactions[reactionIndex].type = reaction;
+        dataLayer.postReaction(photos, function (err) {
+          if (err) {
+            cb(err, null);
+          } else {
+            cb(null, "succes");
+          }
+        });
+      }
+    } else {
+      photos[photoIndex].reactions.splice(reactionIndex, 1);
+      dataLayer.postReaction(photos, function (err) {
+        if (err) {
+          cb(err, null);
+        } else {
+          cb(null, "succes");
+        }
+      });
+    }
+  });
+}
 module.exports = {
   checkExisitingUser,
   getUserById,
@@ -143,4 +197,5 @@ module.exports = {
   getUserPhotos,
   saveNewUser,
   postNewComment,
+  postReaction,
 };

@@ -106,6 +106,38 @@ const routes = function (app) {
       }
     );
   });
+
+  // post Reaction
+  app.post("/photos/reaction", function (request, response) {
+    businsesLayer.postReaction(
+      request.body.type,
+      request.body.user,
+      request.body.photo,
+      function (err) {
+        if (err) {
+          response.status(380).send({
+            error: {
+              code: 10,
+              message: "couldn't write in file :(",
+              error: err,
+            },
+          });
+        } else {
+          response.status(200).send({
+            succes: {
+              code: 200,
+              message: "The file has been saved :)",
+            },
+          });
+        }
+      }
+    );
+  });
+
+  // Reactions
+  // app.get("/reactions", function (request, response) {
+
+  // })
 };
 
 module.exports = routes;
