@@ -63,7 +63,7 @@ class ProfilePage extends Component {
     this.setState({ photoCommentsById: { [photo.id]: e.target.value } });
   }
   render() {
-    return this.state.userPhotos.map((photo) => (
+    return this.state.userPhotos.map((photo, index) => (
       <Card
         user={this.props.user}
         photo={photo}
@@ -71,6 +71,7 @@ class ProfilePage extends Component {
         handleComment={this.onChangeComment.bind(this)}
         comment={this.state.photoCommentsById[photo.id]}
         handlePostComment={this.onCommentClick.bind(this)}
+        key={`${photo.id}` - `${index}`}
       />
     ));
   }

@@ -83,9 +83,8 @@ const routes = function (app) {
   // post comment
   app.post("/photos/comment", function (request, response) {
     businsesLayer.postNewComment(
-      request.body.imageId,
-      request.body.commentAuhtorId,
-      request.body.comment,
+      request.body.authorId,
+      request.body.upoladed
       function (err) {
         if (err) {
           response.status(380).send({
@@ -134,10 +133,32 @@ const routes = function (app) {
     );
   });
 
-  // Reactions
-  // app.get("/reactions", function (request, response) {
-
-  // })
+  // post Post
+  app.post("/photos/newPost", function (request, response) {
+    businsesLayer.postReaction(
+      request.body.user,
+      request.body.user,
+      request.body.photo,
+      function (err) {
+        if (err) {
+          response.status(380).send({
+            error: {
+              code: 10,
+              message: "couldn't write in file :(",
+              error: err,
+            },
+          });
+        } else {
+          response.status(200).send({
+            succes: {
+              code: 200,
+              message: "The file has been saved :)",
+            },
+          });
+        }
+      }
+    );
+  });
 };
 
 module.exports = routes;

@@ -1,0 +1,58 @@
+.addpost-container {
+  padding: 0.5rem;
+  margin: 1rem auto;
+  width: 30rem;
+  background: #fefefe;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  &__author-container {
+    display: flex;
+    align-items: center;
+  }
+  &__profilePicture {
+    margin: 0 0.5rem 0.5rem 0;
+    width: 2.5rem;
+    border-radius: 50%;
+  }
+  &__author-post {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0;
+  }
+  &__input-post {
+    width: 90%;
+    margin-bottom: 0.5rem;
+    height: 1.5rem;
+    border-radius: 3px;
+    border-style: solid;
+  }
+  &__upload-input {
+    display: none;
+  }
+  &__post-button {
+    float: right;
+    width: 20%;
+    margin: 0 0 0.5rem 0.5rem;
+    height: 2rem;
+    background-color: #5c5cf6;
+    border-radius: 3px;
+    border-style: hidden;
+    color: white;
+    &:hover {
+      background-color: #4646ec;
+    }
+  }
+  &__upload-photo {
+    width: 20%;
+    margin: 0 0 0.5rem 0.5rem;
+    height: 2rem;
+    background-color: #5c5cf6;
+    border-radius: 3px;
+    border-style: hidden;
+    color: white;
+    &:hover {
+      background-color: #4646ec;
+    }
+  }
+}

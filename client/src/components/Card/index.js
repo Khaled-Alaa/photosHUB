@@ -4,7 +4,7 @@ import "./styles.scss";
 
 class Card extends Component {
   getReactions(clickedReact) {
-    const newArray = this.props.photo.reactions.filter((react) => react.type == clickedReact);
+    const newArray = this.props.photo.reactions.filter((react) => react.type === clickedReact);
     const length = newArray.length;
     return length;
   }
@@ -42,8 +42,11 @@ class Card extends Component {
           </i>
         </div>
         {/* /////////////////// */}
-        {this.props.photo.comments.map((comment) => (
-          <div className="card__comments-container" key={comment.authorComment.id}>
+        {this.props.photo.comments.map((comment, index) => (
+          <div
+            className="card__comments-container"
+            key={`${comment.authorComment.id}` - `${index}`}
+          >
             <img
               src={comment.authorComment.profilePicture}
               alt="logo"
