@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-
 import Card from "../../components/Card/index";
 import AddPost from "../../components/AddPost/index";
 
@@ -94,27 +93,45 @@ class HomePage extends Component {
     this.setState({ postDescriptionsById: { [userId]: e.target.value } });
   }
 
-  // onDescriptionClick() {
-  //   axios
-  //     .post("http://localhost:5000/photos/comment", {
-  //       imageId: photoId,
-  //       commentAuhtorId: this.props.user.id,
-  //       comment: this.state.photoCommentsById[photoId],
-  //     })
-  //     .then((resp) => {
-  //       if (resp.statusText === "OK") {
-  //         this.setState({
-  //           photoCommentsById: {
-  //             [photoId]: "",
-  //           },
-  //         });
-  //         this.getAllPhotos();
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       alert("failed to post comment!");
-  //     });
-  // }
+  onPostClick(userId, photo) {
+    // console.log(userId, photo, this.state.postDescriptionsById[userId]);
+
+    var formData = new FormData();
+    var imagefile = photo;
+    formData.append("autherId", userId);
+    formData.append("description", this.state.postDescriptionsById[userId]);
+    formData.append("postPhoto", imagefile);
+    axios
+      .post("http://localhost:5000/photos/newPost", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((resp) => {
+        if (resp.statusText === "OK") {
+          this.getAllPhotos();
+        }
+      })
+      .catch((error) => {
+        alert("failed to post the post!");
+      });
+
+    // axios
+    //   .post("http://localhost:5000/photos/newPost", {
+    //     autherId: userId,
+    //     description: this.state.postDescriptionsById[userId],
+    //     postPhoto: photo,
+    //   })
+    //   .then((resp) => {
+    //     if (resp.statusText === "OK") {
+    //       this.getAllPhotos();
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     alert("failed to post the post!");
+    //   });
+  }
+
   render() {
     return (
       <div>
@@ -122,6 +139,7 @@ class HomePage extends Component {
           user={this.props.user}
           handleDescription={this.onChangeDescription.bind(this)}
           description={this.state.postDescriptionsById[this.props.user.id]}
+          handlePostPost={this.onPostClick.bind(this)}
         />
         {this.state.photosData.map((photo, index) => (
           <Card

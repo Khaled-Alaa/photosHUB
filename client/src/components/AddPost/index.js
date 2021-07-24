@@ -9,7 +9,7 @@ class AddPost extends Component {
   }
 
   state = {
-    image: "",
+    image: {},
   };
 
   handlePostComment() {}
@@ -32,9 +32,9 @@ class AddPost extends Component {
     const images = event.target.files;
     this.checkFile(images, (image) => {
       this.setState({
-        image: image.name,
+        image: image,
       });
-      console.log(image, this.props.user.id);
+      // console.log(image);
     });
   }
 
@@ -50,7 +50,9 @@ class AddPost extends Component {
           <input
             type="text"
             className="addpost-container__input-post"
-            value={this.props.comment || `What's on your mind, ${this.props.user.name}?`}
+            value={this.props.description}
+            placeholder={`What's on your mind, ${this.props.user.name}?`}
+            // value={this.props.description || `What's on your mind, ${this.props.user.name}?`}
             // onChange={(e) => this.setState({ [this.props.photo.id]: e.target.value })}
             onChange={(e) => this.props.handleDescription(e, this.props.user.id)}
           ></input>
@@ -71,7 +73,7 @@ class AddPost extends Component {
           <button
             className="addpost-container__post-button"
             onClick={() => {
-              this.props.handlePostComment(this.props.user.id);
+              this.props.handlePostPost(this.props.user.id, this.state.image);
             }}
             disabled={this.props.comment && this.props.comment.length === 0}
           >

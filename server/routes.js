@@ -1,5 +1,18 @@
 const e = require("cors");
 var fs = require("fs");
+var multer = require("multer");
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+var upload = multer({ storage: storage }).single("postPhoto");
+
 const businsesLayer = require("./businesLogic");
 
 const routes = function (app) {
@@ -64,7 +77,9 @@ const routes = function (app) {
 
   // get photos
   app.get("/photos", function (request, response) {
-    businsesLayer.getAllPhotos(function (tempPhotosArr) {
+    const domainProtocol = request.secure ? "https://" : "http://";
+    const domainName = `${domainProtocol}${request.headers.host}`;
+    businsesLayer.getAllPhotos(domainName, function (tempPhotosArr) {
       response.status(200).send(tempPhotosArr);
     });
   });
@@ -83,8 +98,9 @@ const routes = function (app) {
   // post comment
   app.post("/photos/comment", function (request, response) {
     businsesLayer.postNewComment(
-      request.body.authorId,
-      request.body.upoladed
+      request.body.imageId,
+      request.body.commentAuhtorId,
+      request.body.comment,
       function (err) {
         if (err) {
           response.status(380).send({
@@ -134,11 +150,11 @@ const routes = function (app) {
   });
 
   // post Post
-  app.post("/photos/newPost", function (request, response) {
-    businsesLayer.postReaction(
-      request.body.user,
-      request.body.user,
-      request.body.photo,
+  app.post("/photos/newPost", upload, function (request, response) {
+    businsesLayer.postNewPost(
+      request.body.autherId,
+      request.body.description,
+      request.file.filename,
       function (err) {
         if (err) {
           response.status(380).send({

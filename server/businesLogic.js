@@ -23,7 +23,7 @@ function getUserByEmail(email, cb) {
   });
 }
 
-function getAllPhotos(cb) {
+function getAllPhotos(hostName, cb) {
   dataLayer.getPhotos(function (photos) {
     dataLayer.getUsers(function (users) {
       const tempPhotosArr = photos.map((photo) => {
@@ -42,6 +42,7 @@ function getAllPhotos(cb) {
           author: author,
           // authorComment: authorComment,
           ...photo,
+          URL: hostName + photo.URL,
           // comments are array of objects of authorComment and user comment
           comments,
         };
@@ -123,7 +124,7 @@ function postNewComment(imageId, commentAuhtorId, comment, cb) {
         comment: comment,
       };
       /////////////
-      //to add new cooment to the json file
+      //to add new comment to the json file
       photos[photoIndex].comments.push(newComment);
       dataLayer.postNewComment(photos, function (err) {
         if (err) {
@@ -185,6 +186,30 @@ function postReaction(reaction, reactUser, reactPhoto, cb) {
     }
   });
 }
+
+function postNewPost(postAuthorId, postDescription, photoName, cb) {
+  dataLayer.getPhotos(function (photos) {
+    const newPost = {
+      id: Math.floor(Math.random() * 100000000000000),
+      authorId: postAuthorId,
+      URL: `/uploads/${photoName}`,
+      description: postDescription == "undefined" ? "" : postDescription,
+      comments: [],
+      reactions: [],
+    };
+    /////////////
+    //to add new post to the json file
+    photos.push(newPost);
+    dataLayer.postNewPost(photos, function (err) {
+      if (err) {
+        cb(err, null);
+      } else {
+        cb(null, "succes");
+      }
+    });
+  });
+}
+
 module.exports = {
   checkExisitingUser,
   getUserById,
@@ -193,4 +218,5 @@ module.exports = {
   saveNewUser,
   postNewComment,
   postReaction,
+  postNewPost,
 };
