@@ -1,5 +1,18 @@
 const e = require("cors");
 var fs = require("fs");
+var multer = require("multer");
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+var upload = multer({ storage: storage }).single("postPhoto");
+
 const businsesLayer = require("./businesLogic");
 
 const routes = function (app) {
@@ -53,18 +66,26 @@ const routes = function (app) {
 
   // get photos of user
   app.get("/users/:userId/photos", function (request, response) {
-    businsesLayer.getUserPhotos(request.params.userId, function (photos) {
-      if (photos) {
-        response.status(200).send(photos);
-      } else {
-        response.sendStatus(400);
+    const domainProtocol = request.secure ? "https://" : "http://";
+    const domainName = `${domainProtocol}${request.headers.host}`;
+    businsesLayer.getUserPhotos(
+      domainName,
+      request.params.userId,
+      function (photos) {
+        if (photos) {
+          response.status(200).send(photos);
+        } else {
+          response.sendStatus(400);
+        }
       }
-    });
+    );
   });
 
   // get photos
   app.get("/photos", function (request, response) {
-    businsesLayer.getAllPhotos(function (tempPhotosArr) {
+    const domainProtocol = request.secure ? "https://" : "http://";
+    const domainName = `${domainProtocol}${request.headers.host}`;
+    businsesLayer.getAllPhotos(domainName, function (tempPhotosArr) {
       response.status(200).send(tempPhotosArr);
     });
   });
@@ -134,10 +155,32 @@ const routes = function (app) {
     );
   });
 
-  // Reactions
-  // app.get("/reactions", function (request, response) {
-
-  // })
+  // post Post
+  app.post("/photos/newPost", upload, function (request, response) {
+    businsesLayer.postNewPost(
+      request.body.autherId,
+      request.body.description,
+      request.file.filename,
+      function (err) {
+        if (err) {
+          response.status(380).send({
+            error: {
+              code: 10,
+              message: "couldn't write in file :(",
+              error: err,
+            },
+          });
+        } else {
+          response.status(200).send({
+            succes: {
+              code: 200,
+              message: "The file has been saved :)",
+            },
+          });
+        }
+      }
+    );
+  });
 };
 
 module.exports = routes;
