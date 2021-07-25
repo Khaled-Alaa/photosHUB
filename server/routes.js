@@ -66,13 +66,19 @@ const routes = function (app) {
 
   // get photos of user
   app.get("/users/:userId/photos", function (request, response) {
-    businsesLayer.getUserPhotos(request.params.userId, function (photos) {
-      if (photos) {
-        response.status(200).send(photos);
-      } else {
-        response.sendStatus(400);
+    const domainProtocol = request.secure ? "https://" : "http://";
+    const domainName = `${domainProtocol}${request.headers.host}`;
+    businsesLayer.getUserPhotos(
+      domainName,
+      request.params.userId,
+      function (photos) {
+        if (photos) {
+          response.status(200).send(photos);
+        } else {
+          response.sendStatus(400);
+        }
       }
-    });
+    );
   });
 
   // get photos

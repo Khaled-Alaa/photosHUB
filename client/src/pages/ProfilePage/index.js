@@ -30,11 +30,37 @@ class ProfilePage extends Component {
     this.getuserPhotos();
   }
 
-  onLikeClick(string) {
-    if (string === "like") {
-      alert("like");
+  postReaction(reaction, user, reactphoto) {
+    axios
+      .post("http://localhost:5000/photos/reaction", {
+        type: reaction,
+        user: user,
+        photo: reactphoto,
+      })
+      .then((resp) => {
+        this.getuserPhotos();
+      })
+      .catch((error) => {
+        alert("failed to post react!");
+      });
+  }
+
+  onReactClick(reaction, user, reactphoto) {
+    const photo = this.state.userPhotos.find((photo) =>
+      photo.id === reactphoto.id ? photo : null
+    );
+    const exist = photo.reactions.find((reactItem) =>
+      reactItem.userId === user.id ? reactItem : null
+    );
+    if (!exist) {
+      this.postReaction(reaction, user, reactphoto);
     } else {
-      alert("dislike");
+      if (exist.type === reaction) {
+        reaction = "remove";
+        this.postReaction(reaction, user, reactphoto);
+      } else {
+        this.postReaction(reaction, user, reactphoto);
+      }
     }
   }
 
@@ -67,7 +93,7 @@ class ProfilePage extends Component {
       <Card
         user={this.props.user}
         photo={photo}
-        handleReactionsClick={this.onLikeClick}
+        handleReactionsClick={this.onReactClick.bind(this)}
         handleComment={this.onChangeComment.bind(this)}
         comment={this.state.photoCommentsById[photo.id]}
         handlePostComment={this.onCommentClick.bind(this)}

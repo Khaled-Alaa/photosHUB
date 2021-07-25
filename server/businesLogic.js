@@ -53,7 +53,7 @@ function getAllPhotos(hostName, cb) {
   });
 }
 
-function getUserPhotos(userId, cb) {
+function getUserPhotos(hostName, userId, cb) {
   dataLayer.getPhotos(function (photos) {
     dataLayer.getUsers(function (users) {
       const tempPhotosArr = [];
@@ -74,6 +74,7 @@ function getUserPhotos(userId, cb) {
             author: author,
             // authorComment: authorComment,
             ...photo,
+            URL: hostName + photo.URL,
             // comments are array of objects of authorComment and user comment
             comments,
           });
