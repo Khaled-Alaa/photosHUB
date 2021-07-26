@@ -25,7 +25,7 @@ app.use(cors());
 
 routes(app);
 
-const port = 5000;
+const port = 80;
 /* Spin up the server*/
 const server = app.listen(port, listening);
 function listening() {
