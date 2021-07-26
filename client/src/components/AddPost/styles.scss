@@ -55,4 +55,28 @@
       background-color: #4646ec;
     }
   }
+  &__uploaded-photo {
+    width: 28rem;
+  }
+  &__uploaded-photo-frame {
+    border: 3px solid rgb(66, 66, 66);
+    margin-bottom: 1rem;
+    padding: 15px 10px;
+  }
+}
+.disappear {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .addpost-container {
+    width: 90%;
+    &__upload-photo {
+      width: 25%;
+      margin: 0;
+    }
+    &__uploaded-photo {
+      width: 100%;
+    }
+  }
 }

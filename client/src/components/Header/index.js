@@ -15,13 +15,12 @@ class Header extends Component {
         <Link to="/Home">
           <h5 className="Header__site-title">Photos HUB</h5>
         </Link>
-        <Link to="/Profile" className="Header__user-name">
-          {user.name}
-        </Link>
         <span className="Header__profilePictureCropper">
           <img src={user.profilePicture} alt="profilePicture" className="Header__profilePicture" />
         </span>
-
+        <Link to="/Profile" className="Header__user-name">
+          {user.name}
+        </Link>
         <Link to="/">
           <i
             className="fas fa-sign-out-alt Header__logout-icon"

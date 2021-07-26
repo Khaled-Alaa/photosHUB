@@ -9,7 +9,7 @@ class AddPost extends Component {
   }
 
   state = {
-    image: {},
+    image: null,
   };
 
   handlePostComment() {}
@@ -34,8 +34,17 @@ class AddPost extends Component {
       this.setState({
         image: image,
       });
-      // console.log(image);
     });
+  }
+  clearState() {
+    this.setState({
+      image: null,
+    });
+  }
+  createImageURL(image) {
+    if (image) {
+      return URL.createObjectURL(image);
+    }
   }
 
   render() {
@@ -57,6 +66,13 @@ class AddPost extends Component {
             onChange={(e) => this.props.handleDescription(e, this.props.user.id)}
           ></input>
         </div>
+        <div className={`addpost-container__uploaded-photo-frame ${this.state.image == null ? "disappear" : ""}`}>
+          <img
+            src={this.createImageURL(this.state.image)}
+            alt="uploaded image"
+            className="addpost-container__uploaded-photo"
+          />
+        </div>
         <div>
           <input
             ref={this.uploadImageController}
@@ -70,10 +86,13 @@ class AddPost extends Component {
           <button className="addpost-container__upload-photo" onClick={this.onUpload.bind(this)}>
             Add Photo
           </button>
+
+          {/* <span>{this.state.image == null ? "" : this.state.image.name}</span> */}
           <button
             className="addpost-container__post-button"
             onClick={() => {
               this.props.handlePostPost(this.props.user.id, this.state.image);
+              this.clearState();
             }}
             disabled={this.props.comment && this.props.comment.length === 0}
           >

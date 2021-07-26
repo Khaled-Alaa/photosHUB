@@ -8,8 +8,8 @@ class Card extends Component {
       const newArray = this.props.photo.reactions.filter((react) => react.type === clickedReact);
       const length = newArray.length;
       return length;
-    }else{
-      return 0
+    } else {
+      return 0;
     }
   }
   render() {
@@ -21,7 +21,10 @@ class Card extends Component {
             alt="logo"
             className="card__profilePicture"
           />
-          <span>{this.props.photo.author.name}</span>
+          <div>
+            <div className="card__post-author">{this.props.photo.author.name}</div>
+            <div className="card__post-date">{this.props.photo.date}</div>
+          </div>
         </div>
         <div>
           <div>{this.props.photo.description}</div>

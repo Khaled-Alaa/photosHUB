@@ -8,12 +8,14 @@
   flex-direction: column;
   &__author-container {
     display: flex;
-    align-items: center;
   }
   &__profilePicture {
     margin: 0 0.5rem 0.5rem 0;
     width: 2.5rem;
     border-radius: 50%;
+  }
+  &__post-date {
+    font-size: small;
   }
   &__userPicture {
     max-width: 100%;
@@ -67,5 +69,11 @@
     &:hover {
       background-color: #4646ec;
     }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .card {
+    width: 90%;
   }
 }

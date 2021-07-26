@@ -94,27 +94,33 @@ class HomePage extends Component {
   }
 
   onPostClick(userId, photo) {
-    // console.log(userId, photo, this.state.postDescriptionsById[userId]);
-
-    var formData = new FormData();
-    var imagefile = photo;
-    formData.append("autherId", userId);
-    formData.append("description", this.state.postDescriptionsById[userId]);
-    formData.append("postPhoto", imagefile);
-    axios
-      .post("http://localhost:5000/photos/newPost", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((resp) => {
-        if (resp.statusText === "OK") {
-          this.getAllPhotos();
-        }
-      })
-      .catch((error) => {
-        alert("failed to post the post!");
-      });
+    console.log(photo);
+    if (photo) {
+      var formData = new FormData();
+      var imagefile = photo;
+      formData.append("autherId", userId);
+      formData.append("description", this.state.postDescriptionsById[userId]);
+      formData.append("postPhoto", imagefile);
+      axios
+        .post("http://localhost:5000/photos/newPost", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((resp) => {
+          if (resp.statusText === "OK") {
+            this.setState({
+              postDescriptionsById: {
+                [userId]: "",
+              },
+            });
+            this.getAllPhotos();
+          }
+        })
+        .catch((error) => {
+          alert("failed to post the post!");
+        });
+    }
 
     // axios
     //   .post("http://localhost:5000/photos/newPost", {
