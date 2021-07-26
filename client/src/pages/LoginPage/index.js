@@ -1,5 +1,5 @@
 import { Component } from "react";
-import axios from "axios";
+import requester from "../../helpers/requester/index";
 import { Link } from "react-router-dom";
 
 import "./styles.scss";
@@ -19,8 +19,8 @@ class LoginPage extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:5000/login", {
+    requester()
+      .post("login", {
         email: this.state.email,
         password: this.state.password,
       })

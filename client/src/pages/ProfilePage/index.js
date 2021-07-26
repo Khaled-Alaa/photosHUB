@@ -1,5 +1,5 @@
 import { Component } from "react";
-import axios from "axios";
+import requester from "../../helpers/requester/index";
 
 import Card from "../../components/Card/index";
 
@@ -14,8 +14,8 @@ class ProfilePage extends Component {
   getuserPhotos() {
     const userId = localStorage.getItem("id");
 
-    axios
-      .get(`http://localhost:5000/users/${userId}/photos`)
+    requester()
+      .get(`users/${userId}/photos`)
       .then((resp) => {
         this.setState({
           userPhotos: resp.data,
@@ -31,8 +31,8 @@ class ProfilePage extends Component {
   }
 
   postReaction(reaction, user, reactphoto) {
-    axios
-      .post("http://localhost:5000/photos/reaction", {
+    requester()
+      .post("photos/reaction", {
         type: reaction,
         user: user,
         photo: reactphoto,
@@ -65,8 +65,8 @@ class ProfilePage extends Component {
   }
 
   onCommentClick(photoId) {
-    axios
-      .post("http://localhost:5000/photos/comment", {
+    requester()
+      .post("photos/comment", {
         imageId: photoId,
         commentAuhtorId: this.props.user.id,
         comment: this.state.photoCommentsById[photoId],

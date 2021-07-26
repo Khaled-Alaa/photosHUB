@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+import requester from "../../helpers/requester/index";
 import Card from "../../components/Card/index";
 import AddPost from "../../components/AddPost/index";
 
@@ -13,8 +13,8 @@ class HomePage extends Component {
   };
 
   getAllPhotos() {
-    axios
-      .get("http://localhost:5000/photos")
+    requester()
+      .get("photos")
       .then((resp) => {
         this.setState({
           photosData: resp.data,
@@ -30,8 +30,8 @@ class HomePage extends Component {
   }
 
   postReaction(reaction, user, reactphoto) {
-    axios
-      .post("http://localhost:5000/photos/reaction", {
+    requester()
+      .post("photos/reaction", {
         type: reaction,
         user: user,
         photo: reactphoto,
@@ -64,8 +64,8 @@ class HomePage extends Component {
   }
 
   onCommentClick(photoId) {
-    axios
-      .post("http://localhost:5000/photos/comment", {
+    requester()
+      .post("photos/comment", {
         imageId: photoId,
         commentAuhtorId: this.props.user.id,
         comment: this.state.photoCommentsById[photoId],
@@ -101,8 +101,8 @@ class HomePage extends Component {
       formData.append("autherId", userId);
       formData.append("description", this.state.postDescriptionsById[userId]);
       formData.append("postPhoto", imagefile);
-      axios
-        .post("http://localhost:5000/photos/newPost", formData, {
+      requester()
+        .post("photos/newPost", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -122,8 +122,8 @@ class HomePage extends Component {
         });
     }
 
-    // axios
-    //   .post("http://localhost:5000/photos/newPost", {
+    // requester()
+    //   .post("photos/newPost", {
     //     autherId: userId,
     //     description: this.state.postDescriptionsById[userId],
     //     postPhoto: photo,

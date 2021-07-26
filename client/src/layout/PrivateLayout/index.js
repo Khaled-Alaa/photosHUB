@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import axios from "axios";
+import requester from "../../helpers/requester";
 import { Switch, Route } from "react-router-dom";
 
-import Header from "../../components/Header/index";
-import HomePage from "../../pages/HomePage/index";
-import ProfilePage from "../../pages/ProfilePage/index";
+import Header from "../../components/Header";
+import HomePage from "../../pages/HomePage";
+import ProfilePage from "../../pages/ProfilePage";
 
 import "./styles.scss";
 
@@ -16,8 +16,8 @@ class Layout extends Component {
   componentDidMount() {
     const userId = localStorage.getItem("id");
     if (userId) {
-      axios
-        .get(`http://localhost:5000/users/${userId}`)
+      requester()
+        .get(`users/${userId}`)
         .then((resp) => {
           this.setState({
             user: resp.data,

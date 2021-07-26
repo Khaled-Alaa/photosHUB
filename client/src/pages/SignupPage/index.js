@@ -1,5 +1,5 @@
 import { Component } from "react";
-import axios from "axios";
+import requester from "../../helpers/requester/index";
 import { Link } from "react-router-dom";
 
 import "./styles.scss";
@@ -20,8 +20,8 @@ class SignupPage extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:5000/signup", {
+    requester()
+      .post("signup", {
         name: this.state.name,
         email: this.state.email,
         birthdate: this.state.birthdate,
