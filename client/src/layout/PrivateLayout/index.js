@@ -10,22 +10,25 @@ import "./styles.scss";
 
 class Layout extends Component {
   state = {
-    userId: "",
     user: {},
   };
 
   componentDidMount() {
     const userId = localStorage.getItem("id");
-    axios
-      .get(`http://localhost:5000/users/${userId}`)
-      .then((resp) => {
-        this.setState({
-          user: resp.data,
+    if (userId) {
+      axios
+        .get(`http://localhost:5000/users/${userId}`)
+        .then((resp) => {
+          this.setState({
+            user: resp.data,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    } else {
+      this.props.history.push("/");
+    }
   }
 
   render() {
