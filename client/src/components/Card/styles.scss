@@ -4,8 +4,10 @@
   width: 30rem;
   background: #fefefe;
   border-radius: 8px;
-  display: flex;
-  flex-direction: column;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
   &__author-container {
     display: flex;
   }

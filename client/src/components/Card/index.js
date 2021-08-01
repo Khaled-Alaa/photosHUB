@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import ActionMenu from "../ActionMenu";
 import "./styles.scss";
 
 class Card extends Component {
@@ -15,15 +15,20 @@ class Card extends Component {
   render() {
     return (
       <div className="card" key={this.props.photo.id}>
-        <div className="card__author-container">
-          <img
-            src={this.props.photo.author.profilePicture}
-            alt="logo"
-            className="card__profilePicture"
-          />
+        <div className="card__header">
+          <div className="card__author-container">
+            <img
+              src={this.props.photo.author.profilePicture}
+              alt="logo"
+              className="card__profilePicture"
+            />
+            <div>
+              <div className="card__post-author">{this.props.photo.author.name}</div>
+              <div className="card__post-date">{this.props.photo.date}</div>
+            </div>
+          </div>
           <div>
-            <div className="card__post-author">{this.props.photo.author.name}</div>
-            <div className="card__post-date">{this.props.photo.date}</div>
+            <ActionMenu />
           </div>
         </div>
         <div>
