@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
 import ActionMenu from "../ActionMenu";
+
 import "./styles.scss";
 
 class Card extends Component {
@@ -23,12 +26,15 @@ class Card extends Component {
               className="card__profilePicture"
             />
             <div>
-              <div className="card__post-author">{this.props.photo.author.name}</div>
+              <Link to={`/Profile/${this.props.photo.author.id}`} className="card__post-author">
+                {this.props.photo.author.name}
+              </Link>
+              {/* <div className="card__post-author">{this.props.photo.author.name}</div> */}
               <div className="card__post-date">{this.props.photo.date}</div>
             </div>
           </div>
           <div>
-            <ActionMenu cardOwner={this.props.photo.author.id}/>
+            <ActionMenu cardOwner={this.props.photo.author.id} />
           </div>
         </div>
         <div>

@@ -12,8 +12,8 @@ class Header extends Component {
     return (
       <div className="Header">
         <img src="assets/images/logo2.png" alt="logo" className="Header__logo" />
-        <Link to="/Home">
-          <h5 className="Header__site-title">Photos HUB</h5>
+        <Link to="/Home" className="Header__site-title">
+          <h5>Photos HUB</h5>
         </Link>
         <span className="Header__profilePictureCropper">
           <img src={user.profilePicture} alt="profilePicture" className="Header__profilePicture" />
