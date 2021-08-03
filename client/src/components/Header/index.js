@@ -18,7 +18,7 @@ class Header extends Component {
         <span className="Header__profilePictureCropper">
           <img src={user.profilePicture} alt="profilePicture" className="Header__profilePicture" />
         </span>
-        <Link to="/Profile" className="Header__user-name">
+        <Link to={`/Profile/${localStorage.getItem("id")}`} className="Header__user-name">
           {user.name}
         </Link>
         <Link to="/">

@@ -11,12 +11,14 @@
 }
 
 .dropup-content {
+  border-radius: 0.5rem;
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
+  background-color: #ffffffec;
   min-width: 160px;
   bottom: 50px;
-  //   z-index: 1;
+  bottom: -5rem;
+  left: -8rem;
 }
 
 .dropup-content a {
@@ -27,7 +29,8 @@
 }
 
 .dropup-content a:hover {
-  background-color: #ccc;
+  background-color: #d9d9d9;
+  border-radius: 0.5rem;
 }
 
 .clicked {

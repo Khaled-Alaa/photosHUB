@@ -13,9 +13,10 @@ class ProfilePage extends Component {
 
   getuserPhotos() {
     const userId = localStorage.getItem("id");
+    // .get(`users/${userId}/photos`)
 
     requester()
-      .get(`users/${userId}/photos`)
+      .get(`users/${this.props.route.match.params.id}/photos`)
       .then((resp) => {
         this.setState({
           userPhotos: resp.data,

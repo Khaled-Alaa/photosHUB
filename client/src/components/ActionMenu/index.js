@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import requester from "../../helpers/requester/index";
+import { Link } from "react-router-dom";
 
 import "./styles.scss";
 
@@ -13,9 +15,6 @@ class ActionMenu extends Component {
     });
   }
 
-  test() {
-    alert("test");
-  }
 
   render() {
     return (
@@ -25,9 +24,10 @@ class ActionMenu extends Component {
           className={`dropup-content 
           ${this.state.flag == true ? `clicked` : ""}`}
         >
-          <a onClick={(e) => this.test()}>Link 1</a>
-          <a onClick={(e) => this.test()}>Link 2</a>
-          <a onClick={(e) => this.test()}>Link 3</a>
+          <Link to={`/Profile/${this.props.cardOwner}`} className="Header__user-name">
+            Visit Profile
+          </Link>
+          <a onClick={(e) => this.test()}>Delete</a>
         </div>
       </div>
     );
