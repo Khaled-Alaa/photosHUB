@@ -34,7 +34,7 @@ class Card extends Component {
             </div>
           </div>
           <div>
-            <ActionMenu cardOwner={this.props.photo.author.id} />
+            <ActionMenu cardOwner={this.props.photo.author.id} photoId={this.props.photo.id} />
           </div>
         </div>
         <div>

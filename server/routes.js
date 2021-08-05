@@ -18,14 +18,17 @@ const businsesLayer = require("./businesLogic");
 const routes = function (app) {
   // check exisiting user
   app.post("/login", function (request, response) {
+    debugger;
     businsesLayer.checkExisitingUser(
       request.body.email,
       request.body.password,
-      function (user) {
+      function (user, error) {
         if (user) {
+          debugger;
           response.status(200).send(user);
         } else {
-          response.sendStatus(400);
+          debugger;
+          response.status(500).send(error);
         }
       }
     );
@@ -33,6 +36,7 @@ const routes = function (app) {
 
   // create new user
   app.post("/signup", function (request, response) {
+    debugger;
     businsesLayer.saveNewUser(
       request.body.name,
       request.body.email,
@@ -40,6 +44,7 @@ const routes = function (app) {
       request.body.password,
       function (user, err) {
         if (err) {
+          debugger;
           if (err.error.code === 1) {
             response.status(409).send({
               error: {
@@ -56,6 +61,7 @@ const routes = function (app) {
             });
           }
         } else {
+          debugger;
           response.status(200).send({
             user,
           });
@@ -71,11 +77,11 @@ const routes = function (app) {
     businsesLayer.getUserPhotos(
       domainName,
       request.params.userId,
-      function (photos) {
+      function (photos, error) {
         if (photos) {
           response.status(200).send(photos);
         } else {
-          response.sendStatus(400);
+          response.status(500).send(error);
         }
       }
     );
@@ -85,18 +91,22 @@ const routes = function (app) {
   app.get("/photos", function (request, response) {
     const domainProtocol = request.secure ? "https://" : "http://";
     const domainName = `${domainProtocol}${request.headers.host}`;
-    businsesLayer.getAllPhotos(domainName, function (tempPhotosArr) {
-      response.status(200).send(tempPhotosArr);
+    businsesLayer.getAllPhotos(domainName, function (tempPhotosArr, error) {
+      if (tempPhotosArr) {
+        response.status(200).send(tempPhotosArr);
+      } else {
+        response.status(500).send(error);
+      }
     });
   });
 
   // get signed user
   app.get("/users/:userId", function (request, response) {
-    businsesLayer.getUserById(request.params.userId, function (user) {
+    businsesLayer.getUserById(request.params.userId, function (user, error) {
       if (user) {
         response.status(200).send(user);
       } else {
-        response.sendStatus(400);
+        response.status(500).send(error);
       }
     });
   });
@@ -107,7 +117,7 @@ const routes = function (app) {
       request.body.imageId,
       request.body.commentAuhtorId,
       request.body.comment,
-      function (err) {
+      function (succes, err) {
         if (err) {
           response.status(380).send({
             error: {
@@ -118,9 +128,10 @@ const routes = function (app) {
           });
         } else {
           response.status(200).send({
-            error: {
+            succes: {
               code: 200,
               message: "The file has been saved :)",
+              succes: succes,
             },
           });
         }
@@ -134,7 +145,7 @@ const routes = function (app) {
       request.body.type,
       request.body.user,
       request.body.photo,
-      function (err) {
+      function (succes, err) {
         if (err) {
           response.status(380).send({
             error: {
@@ -148,6 +159,7 @@ const routes = function (app) {
             succes: {
               code: 200,
               message: "The file has been saved :)",
+              succes: succes,
             },
           });
         }
@@ -161,7 +173,7 @@ const routes = function (app) {
       request.body.autherId,
       request.body.description,
       request.file.filename,
-      function (err) {
+      function (succes, err) {
         if (err) {
           response.status(380).send({
             error: {
@@ -175,11 +187,37 @@ const routes = function (app) {
             succes: {
               code: 200,
               message: "The file has been saved :)",
+              succes: succes,
             },
           });
         }
       }
     );
+  });
+
+  // DELETE Post
+  app.delete("/photos", function (request, response) {
+    debugger;
+    businsesLayer.deletePost(request.body.photoId, function (succes, err) {
+      debugger;
+      if (err) {
+        response.status(380).send({
+          error: {
+            code: 10,
+            message: "couldn't delete the post :(",
+            error: err,
+          },
+        });
+      } else {
+        response.status(200).send({
+          succes: {
+            code: 200,
+            message: "The post has been deleted :)",
+            succes: succes,
+          },
+        });
+      }
+    });
   });
 };
 

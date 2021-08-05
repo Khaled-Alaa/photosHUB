@@ -11,7 +11,7 @@ class Header extends Component {
     const { user } = this.props;
     return (
       <div className="Header">
-        <img src="assets/images/logo2.png" alt="logo" className="Header__logo" />
+        <img src="/assets/images/logo2.png" alt="logo" className="Header__logo" />
         <Link to="/Home" className="Header__site-title">
           <h5>Photos HUB</h5>
         </Link>

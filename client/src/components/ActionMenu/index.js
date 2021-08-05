@@ -15,6 +15,19 @@ class ActionMenu extends Component {
     });
   }
 
+  handleDelete(photoId) {
+    debugger;
+    requester()
+      .delete("photos", {
+        photoId: photoId,
+      })
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   render() {
     return (
@@ -27,7 +40,7 @@ class ActionMenu extends Component {
           <Link to={`/Profile/${this.props.cardOwner}`} className="Header__user-name">
             Visit Profile
           </Link>
-          <a onClick={(e) => this.test()}>Delete</a>
+          <a onClick={() => this.handleDelete(this.props.photoId)}>Delete</a>
         </div>
       </div>
     );
