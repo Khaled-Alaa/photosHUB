@@ -4,8 +4,10 @@
   width: 30rem;
   background: #fefefe;
   border-radius: 8px;
-  display: flex;
-  flex-direction: column;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
   &__author-container {
     display: flex;
   }
@@ -13,6 +15,9 @@
     margin: 0 0.5rem 0.5rem 0;
     width: 2.5rem;
     border-radius: 50%;
+  }
+  &__post-author {
+    text-decoration: none;
   }
   &__post-date {
     font-size: small;

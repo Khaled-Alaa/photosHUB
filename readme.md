@@ -56,7 +56,7 @@ To get started developing for client:
 ```
 ## Missing Feature
 delete post
-add profile for users
+add profile picture for users
 forget password page 
 
 

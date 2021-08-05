@@ -15,6 +15,11 @@ const app = express();
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+console.log(
+  "Path of file in parent dir:",
+  require("path").resolve(__dirname, "../data/users.json")
+);
+
 /* Middleware*/
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

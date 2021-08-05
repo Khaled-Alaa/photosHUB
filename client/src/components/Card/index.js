@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
+import ActionMenu from "../ActionMenu";
 
 import "./styles.scss";
 
@@ -15,15 +18,23 @@ class Card extends Component {
   render() {
     return (
       <div className="card" key={this.props.photo.id}>
-        <div className="card__author-container">
-          <img
-            src={this.props.photo.author.profilePicture}
-            alt="logo"
-            className="card__profilePicture"
-          />
+        <div className="card__header">
+          <div className="card__author-container">
+            <img
+              src={this.props.photo.author.profilePicture}
+              alt="logo"
+              className="card__profilePicture"
+            />
+            <div>
+              <Link to={`/Profile/${this.props.photo.author.id}`} className="card__post-author">
+                {this.props.photo.author.name}
+              </Link>
+              {/* <div className="card__post-author">{this.props.photo.author.name}</div> */}
+              <div className="card__post-date">{this.props.photo.date}</div>
+            </div>
+          </div>
           <div>
-            <div className="card__post-author">{this.props.photo.author.name}</div>
-            <div className="card__post-date">{this.props.photo.date}</div>
+            <ActionMenu cardOwner={this.props.photo.author.id} photoId={this.props.photo.id} />
           </div>
         </div>
         <div>

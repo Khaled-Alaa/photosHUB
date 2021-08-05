@@ -11,14 +11,14 @@ class Header extends Component {
     const { user } = this.props;
     return (
       <div className="Header">
-        <img src="assets/images/logo2.png" alt="logo" className="Header__logo" />
-        <Link to="/Home">
-          <h5 className="Header__site-title">Photos HUB</h5>
+        <img src="/assets/images/logo2.png" alt="logo" className="Header__logo" />
+        <Link to="/Home" className="Header__site-title">
+          <h5>Photos HUB</h5>
         </Link>
         <span className="Header__profilePictureCropper">
           <img src={user.profilePicture} alt="profilePicture" className="Header__profilePicture" />
         </span>
-        <Link to="/Profile" className="Header__user-name">
+        <Link to={`/Profile/${localStorage.getItem("id")}`} className="Header__user-name">
           {user.name}
         </Link>
         <Link to="/">
