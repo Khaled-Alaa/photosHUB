@@ -12,7 +12,6 @@ class AddPost extends Component {
     image: null,
   };
 
-  handlePostComment() {}
   onUpload() {
     this.uploadImageController.current.click();
   }
