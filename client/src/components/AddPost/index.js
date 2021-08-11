@@ -1,57 +1,40 @@
 import React, { Component } from "react";
+import UploadImage from "../UploadImage";
 
 import "./styles.scss";
 
 class AddPost extends Component {
   constructor(props) {
     super(props);
-    this.uploadImageController = React.createRef();
+    this.ImageUploader = React.createRef();
+    this.state = {
+      image: null,
+      imageURL: "",
+    };
   }
 
-  state = {
-    image: null,
-  };
-
-  onUpload() {
-    this.uploadImageController.current.click();
-  }
-
-  checkFile(uploadedImages, resolve) {
-    const image = uploadedImages[0];
-    if (uploadedImages.length !== 0) {
-      if (image.type === "image/png" || image.type === "image/gif" || image.type === "image/jpeg") {
-        resolve(image);
-      } else {
-        alert("Please choose an image");
-      }
+  createImageURL(image) {
+    if (image) {
+      this.setState({ image, imageURL: URL.createObjectURL(image) });
     }
   }
 
-  loadImage(event) {
-    const images = event.target.files;
-    this.checkFile(images, (image) => {
-      this.setState({
-        image: image,
-      });
-    });
-  }
   clearState() {
     this.setState({
       image: null,
+      imageURL: "",
     });
   }
-  createImageURL(image) {
-    if (image) {
-      return URL.createObjectURL(image);
-    }
-  }
-
   render() {
     return (
       <div className="addpost-container">
         <div className="addpost-container__author-post">
           <img
-            src={this.props.user.profilePicture}
+            src={
+              this.props.user.profilePicture
+                ? this.props.user.profilePicture
+                : "/assets/images/dummy-profile-pic.png"
+            }
             alt="logo"
             className="addpost-container__profilePicture"
           />
@@ -65,32 +48,24 @@ class AddPost extends Component {
             onChange={(e) => this.props.handleDescription(e, this.props.user.id)}
           ></input>
         </div>
-        <div className={`addpost-container__uploaded-photo-frame ${this.state.image == null ? "disappear" : ""}`}>
+        <div
+          className={`addpost-container__uploaded-photo-frame ${
+            this.state.image == null ? "disappear" : ""
+          }`}
+        >
           <img
-            src={this.createImageURL(this.state.image)}
+            src={this.state.imageURL}
             alt="uploaded image"
             className="addpost-container__uploaded-photo"
           />
         </div>
         <div>
-          <input
-            ref={this.uploadImageController}
-            type="file"
-            id="myFile"
-            name="filename"
-            accept="image/png, image/gif, image/jpeg"
-            onChange={this.loadImage.bind(this)}
-            className="addpost-container__upload-input"
-          />
-          <button className="addpost-container__upload-photo" onClick={this.onUpload.bind(this)}>
-            Add Photo
-          </button>
-
-          {/* <span>{this.state.image == null ? "" : this.state.image.name}</span> */}
+          <UploadImage ref={this.ImageUploader} onCreateImageURL={this.createImageURL.bind(this)} />
           <button
             className="addpost-container__post-button"
             onClick={() => {
               this.props.handlePostPost(this.props.user.id, this.state.image);
+              this.ImageUploader.current.clearState();
               this.clearState();
             }}
             disabled={this.props.comment && this.props.comment.length === 0}

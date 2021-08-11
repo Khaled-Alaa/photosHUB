@@ -37,20 +37,20 @@ class Header extends Component {
         </Link>
         <span className="Header__profilePictureCropper">
           <img
-            src={user.profilePicture}
+            src={user.profilePicture ? user.profilePicture : "/assets/images/dummy-profile-pic.png"}
             alt="profilePicture"
             className="Header__profilePicture"
             onClick={this.handleProfilePicture.bind(this)}
           />
           {this.state.showPopup ? (
-            <Popup
-              user={user}
-              closePopup={this.handleProfilePicture.bind(this)}
-            />
+            <Popup user={user} closePopup={this.handleProfilePicture.bind(this)} />
           ) : null}
         </span>
         <Link to={`/Profile/${localStorage.getItem("id")}`} className="Header__user-name">
           {user.name}
+        </Link>
+        <Link>
+          <i className="fas fa-user-cog"></i>
         </Link>
         <Link to="/">
           <i

@@ -120,7 +120,7 @@ function saveNewUser(name, email, birthdate, password, cb) {
           email: email,
           birthdate: birthdate,
           password: password,
-          // profilePicture:""
+          profilePicture: null,
         };
         //to add new user to the json file
         users.push(newUser);
@@ -175,6 +175,7 @@ function postReaction(reaction, reactUser, reactPhoto, cb) {
       photo = photos.find((photo) =>
         photo.id == reactPhoto.id ? photo : null
       );
+      // ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
       photoIndex = photos.findIndex((photo) =>
         photo.id == reactPhoto.id ? photo : null
       );
@@ -301,6 +302,37 @@ function deletePost(photoId, cb) {
   });
 }
 
+function updateUserData(
+  userId,
+  userName,
+  birthdate,
+  password,
+  profilePictureName,
+  cb
+) {
+  dataLayer.getUsers(function (users, error) {
+    debugger;
+    if (users) {
+      debugger;
+      const user = users.find((user) => (user.id == userId ? user : null));
+      const userIndex = users.findIndex((user) =>
+        user.id == userId ? user : null
+      );
+      user.profilePicture = `/uploads/${profilePictureName}`;
+      debugger;
+      users[userIndex] = user;
+      dataLayer.updateUserData(users, function (err) {
+        if (err) {
+          cb(null, err);
+        } else {
+          cb("succes", null);
+        }
+      });
+    } else {
+      cb(null, error);
+    }
+  });
+}
 module.exports = {
   checkExisitingUser,
   getUserById,
@@ -311,4 +343,5 @@ module.exports = {
   postReaction,
   postNewPost,
   deletePost,
+  updateUserData,
 };

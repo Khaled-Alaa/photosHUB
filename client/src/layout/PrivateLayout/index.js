@@ -45,6 +45,12 @@ class Layout extends Component {
               return <ProfilePage user={this.state.user} route={route} />;
             }}
           />
+          {/* <Route
+            path="/EditProfile/:id"
+            render={(route) => {
+              return <ProfilePage user={this.state.user} route={route} />;
+            }}
+          /> */}
         </Switch>
       </div>
     );

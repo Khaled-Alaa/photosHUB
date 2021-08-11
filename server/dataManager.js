@@ -98,6 +98,22 @@ function deletePost(photos, cb) {
     }
   );
 }
+
+function updateUserData(users, cb) {
+  //to convert json file to string
+  const jsonString = JSON.stringify(users);
+  // to convert the string data to binary and save it in memory
+  const data = new Uint8Array(Buffer.from(jsonString));
+
+  fs.writeFile(
+    require("path").resolve(__dirname, "./data/users.json"),
+    data,
+    (err) => {
+      cb(err);
+    }
+  );
+}
+
 module.exports = {
   getUsers,
   getPhotos,
@@ -106,4 +122,5 @@ module.exports = {
   postReaction,
   postNewPost,
   deletePost,
+  updateUserData,
 };

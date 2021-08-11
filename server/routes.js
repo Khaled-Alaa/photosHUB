@@ -219,6 +219,37 @@ const routes = function (app) {
       }
     });
   });
+
+  // Edit User Data
+  app.post("/user/:userId", function (request, response) {
+    debugger;
+    businsesLayer.updateUserData(
+      request.params.userId,
+      request.body.name,
+      request.body.birthdate,
+      request.body.password,
+      request.file.name,
+      function (succes, err) {
+        if (err) {
+          response.status(380).send({
+            error: {
+              code: 10,
+              message: "couldn't update you data :(",
+              error: err,
+            },
+          });
+        } else {
+          response.status(200).send({
+            succes: {
+              code: 200,
+              message: "your data has been updated :)",
+              succes: succes,
+            },
+          });
+        }
+      }
+    );
+  });
 };
 
 module.exports = routes;

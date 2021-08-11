@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import "./styles.scss";
 
-class uploadImage extends Component {
+class UploadImage extends Component {
   constructor(props) {
     super(props);
     this.uploadImageController = React.createRef();
@@ -29,10 +29,12 @@ class uploadImage extends Component {
 
   loadImage(event) {
     const images = event.target.files;
+    debugger;
     this.checkFile(images, (image) => {
       this.setState({
         image: image,
       });
+      this.props.onCreateImageURL(image);
     });
   }
 
@@ -40,12 +42,6 @@ class uploadImage extends Component {
     this.setState({
       image: null,
     });
-  }
-
-  createImageURL(image) {
-    if (image) {
-      return URL.createObjectURL(image);
-    }
   }
 
   render() {
@@ -68,4 +64,4 @@ class uploadImage extends Component {
   }
 }
 
-export default uploadImage;
+export default UploadImage;
