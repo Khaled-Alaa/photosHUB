@@ -169,6 +169,7 @@ const routes = function (app) {
 
   // post Post
   app.post("/photos/newPost", upload, function (request, response) {
+    debugger;
     businsesLayer.postNewPost(
       request.body.autherId,
       request.body.description,
@@ -197,9 +198,7 @@ const routes = function (app) {
 
   // DELETE Post
   app.delete("/photos", function (request, response) {
-    debugger;
     businsesLayer.deletePost(request.body.photoId, function (succes, err) {
-      debugger;
       if (err) {
         response.status(380).send({
           error: {
@@ -221,14 +220,24 @@ const routes = function (app) {
   });
 
   // Edit User Data
-  app.post("/user/:userId", function (request, response) {
+  app.post("/user", upload, function (request, response) {
     debugger;
+    const x = request.body.userId;
+    const y = request.body.newProfilePicture;
+    const z = request.file.filename;
+    const k = request.body.newProfilePicture.filename;
+    const ll = request.body.userId;
+    debugger;
+
+    const domainProtocol = request.secure ? "https://" : "http://";
+    const domainName = `${domainProtocol}${request.headers.host}`;
     businsesLayer.updateUserData(
-      request.params.userId,
+      domainName,
+      request.body.userId,
       request.body.name,
       request.body.birthdate,
       request.body.password,
-      request.file.name,
+      request.body.profilePicture,
       function (succes, err) {
         if (err) {
           response.status(380).send({

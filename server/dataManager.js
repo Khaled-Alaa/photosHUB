@@ -9,7 +9,6 @@ function getUsers(cb) {
     require("path").resolve(__dirname, "./data/users.json"),
     "utf8",
     function (err, data) {
-      debugger;
       if (data) {
         const parsedData = JSON.parse(data);
         cb(parsedData, null);
@@ -22,24 +21,19 @@ function getUsers(cb) {
 
 function getPhotos(cb) {
   try {
-    debugger;
     fs.readFile(
       require("path").resolve(__dirname, "./data/photos.json"),
       "utf8",
       function (err, data) {
-        debugger;
         if (data) {
           const parsedData = JSON.parse(data);
           cb(parsedData, null);
         } else {
           cb(null, err);
         }
-        debugger;
       }
     );
-    debugger;
   } catch (error) {
-    debugger;
   }
 }
 

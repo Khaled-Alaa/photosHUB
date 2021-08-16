@@ -15,6 +15,7 @@ class Card extends Component {
       return 0;
     }
   }
+
   render() {
     return (
       <div className="card" key={this.props.photo.id}>
@@ -38,7 +39,11 @@ class Card extends Component {
             </div>
           </div>
           <div>
-            <ActionMenu cardOwner={this.props.photo.author.id} photoId={this.props.photo.id} />
+            <ActionMenu
+              cardOwner={this.props.photo.author.id}
+              photoId={this.props.photo.id}
+              refershAfterDelete={this.props.refershAfterDelete.bind(this)}
+            />
           </div>
         </div>
         <div>

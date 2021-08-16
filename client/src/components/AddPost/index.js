@@ -50,7 +50,7 @@ class AddPost extends Component {
         </div>
         <div
           className={`addpost-container__uploaded-photo-frame ${
-            this.state.image == null ? "disappear" : ""
+            this.state.image === null ? "disappear" : ""
           }`}
         >
           <img

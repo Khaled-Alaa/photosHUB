@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import requester from "../../helpers/requester/index";
+import requester from "../../helpers/requester";
 
 import UploadImage from "../UploadImage";
 
@@ -41,29 +41,32 @@ class Popup extends Component {
     }
   }
 
-  onPostClick(userId, image) {
-    debugger;
-    if (image) {
-      var formData = new FormData();
-      var imagefile = image;
-      formData.append("id", userId);
-      formData.append("profilePicture", imagefile);
-      requester()
-        .post(`user/${userId}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((resp) => {
-          if (resp.statusText === "OK") {
-            alert("just refersh ;)");
-          }
-        })
-        .catch((error) => {
-          alert("failed to update your data!");
-        });
-    }
-  }
+  // onSaveClick(userId, image) {
+  //   console.log(image.name);
+  //   if (image) {
+  //     var formData = new FormData();
+  //     var imageName = image.name;
+  //     var imagefile = image;
+  //     formData.append("userId", userId);
+  //     formData.append("newProfilePicture", imageName);
+  //     formData.append("postPhoto", imagefile);
+  //     requester()
+  //       // .post(`user/${userId}`, formData, {
+  //       .post("user", formData, {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       })
+  //       .then((resp) => {
+  //         if (resp.statusText === "OK") {
+  //           alert("just refersh ;)");
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         alert("failed to update your data!");
+  //       });
+  //   }
+  // }
   render() {
     return (
       <div>
@@ -82,7 +85,8 @@ class Popup extends Component {
             <button
               className="addpost-container__post-button"
               onClick={() => {
-                this.onPostClick(this.props.user.id, this.state.image);
+                this.props.handleSavePost(this.props.user.id, this.state.image);
+                // this.onSaveClick(this.props.user.id, this.state.image);
                 this.ImageUploader.current.clearState();
                 this.clearState();
               }}

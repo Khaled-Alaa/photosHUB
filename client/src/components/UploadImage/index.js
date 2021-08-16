@@ -17,6 +17,7 @@ class UploadImage extends Component {
   }
 
   checkFile(uploadedImages, resolve) {
+    debugger;
     const image = uploadedImages[0];
     if (uploadedImages.length !== 0) {
       if (image.type === "image/png" || image.type === "image/gif" || image.type === "image/jpeg") {

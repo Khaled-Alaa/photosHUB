@@ -19,10 +19,13 @@ class ActionMenu extends Component {
     debugger;
     requester()
       .delete("photos", {
-        photoId: photoId,
+        data: { photoId: photoId },
       })
       .then((resp) => {
-        console.log(resp);
+        this.setState({
+          flag: !this.state.flag,
+        });
+        this.props.refershAfterDelete();
       })
       .catch((error) => {
         console.log(error);
@@ -35,7 +38,7 @@ class ActionMenu extends Component {
         <i className="fas fa-ellipsis-v dropbtn" onClick={(e) => this.handleSubMenu()} />
         <div
           className={`dropup-content 
-          ${this.state.flag == true ? `clicked` : ""}`}
+          ${this.state.flag === true ? `clicked` : ""}`}
         >
           <Link to={`/Profile/${this.props.cardOwner}`} className="Header__user-name">
             Visit Profile

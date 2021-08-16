@@ -156,6 +156,7 @@ class HomePage extends Component {
             handleComment={this.onChangeComment.bind(this)}
             comment={this.state.photoCommentsById[photo.id]}
             handlePostComment={this.onCommentClick.bind(this)}
+            refershAfterDelete={this.getAllPhotos.bind(this)}
             key={`${photo.id}` - `${index}`}
           />
         ))}

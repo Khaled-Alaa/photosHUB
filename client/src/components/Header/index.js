@@ -1,6 +1,9 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
+import requester from "../../helpers/requester";
+
 import Popup from "../Popup";
+
 import "./styles.scss";
 
 class Header extends Component {
@@ -20,12 +23,41 @@ class Header extends Component {
     });
     // var body = document.getElementsByTagName("body");
     // debugger;
-    if (document.body.style.overflow == "hidden") {
+    if (document.body.style.overflow === "hidden") {
       document.body.style.overflow = "visible";
     } else {
       document.body.style.overflow = "hidden";
     }
     // body.style.overflow = "hidden";
+  }
+
+  onSaveClick(userId, image) {
+    debugger;
+    if (image) {
+      var formData = new FormData();
+      // var imageName = image.name;
+      var imagefile = image;
+      formData.append("userId", userId);
+      // formData.append("newProfilePicture", imageName);
+      formData.append("postPhoto", imagefile);
+      requester()
+        // .post(`user/${userId}`, formData, {
+        .post("user", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((resp) => {
+          debugger;
+          if (resp.statusText === "OK") {
+            alert("just refersh ;)");
+          }
+        })
+        .catch((error) => {
+          debugger;
+          alert("failed to update your data!");
+        });
+    }
   }
   render() {
     const { user } = this.props;
@@ -43,7 +75,11 @@ class Header extends Component {
             onClick={this.handleProfilePicture.bind(this)}
           />
           {this.state.showPopup ? (
-            <Popup user={user} closePopup={this.handleProfilePicture.bind(this)} />
+            <Popup
+              user={user}
+              handleSavePost={this.onSaveClick.bind(this)}
+              closePopup={this.handleProfilePicture.bind(this)}
+            />
           ) : null}
         </span>
         <Link to={`/Profile/${localStorage.getItem("id")}`} className="Header__user-name">

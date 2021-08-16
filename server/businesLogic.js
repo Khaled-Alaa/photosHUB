@@ -279,6 +279,7 @@ function postNewPost(postAuthorId, postDescription, photoName, cb) {
 }
 
 function deletePost(photoId, cb) {
+  const x = photoId;
   dataLayer.getPhotos(function (photos, error) {
     if (photos) {
       debugger;
@@ -303,6 +304,7 @@ function deletePost(photoId, cb) {
 }
 
 function updateUserData(
+  hostName,
   userId,
   userName,
   birthdate,
@@ -318,7 +320,7 @@ function updateUserData(
       const userIndex = users.findIndex((user) =>
         user.id == userId ? user : null
       );
-      user.profilePicture = `/uploads/${profilePictureName}`;
+      user.profilePicture = `${hostName}/uploads/${profilePictureName}`;
       debugger;
       users[userIndex] = user;
       dataLayer.updateUserData(users, function (err) {
