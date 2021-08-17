@@ -31,6 +31,7 @@ class Popup extends Component {
 
   checkImage() {
     if (this.state.imageURL) {
+      debugger;
       return this.state.imageURL;
     } else {
       if (this.props.user.profilePicture) {
@@ -69,15 +70,15 @@ class Popup extends Component {
   // }
   render() {
     return (
-      <div>
-        <div className="popup">
-          <div className="popup_inner">
-            <img src={this.checkImage()} alt="uploaded image" className="userPhoto" />
-            <div>
-              <div className="username">{this.props.user.name}</div>
-              <div className="photodate">{this.props.user.date}</div>
-            </div>
-            <i className="far fa-times-circle closePopup" onClick={this.props.closePopup}></i>
+      <div className="popup">
+        <div className="popup_inner">
+          <i className="far fa-times-circle closePopup" onClick={this.props.closePopup}></i>
+          <img src={this.checkImage()} alt="uploaded image" className="userPhoto" />
+          <div>
+            <div className="username">{this.props.user.name}</div>
+            <div className="photodate">{this.props.user.date}</div>
+          </div>
+          <div>
             <UploadImage
               ref={this.ImageUploader}
               onCreateImageURL={this.createImageURL.bind(this)}

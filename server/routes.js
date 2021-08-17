@@ -11,7 +11,8 @@ var storage = multer.diskStorage({
   },
 });
 
-var upload = multer({ storage: storage }).single("postPhoto");
+// var upload = multer({ storage: storage }).single("postPhoto");
+var upload = multer({ storage: storage });
 
 const businsesLayer = require("./businesLogic");
 
@@ -168,33 +169,37 @@ const routes = function (app) {
   });
 
   // post Post
-  app.post("/photos/newPost", upload, function (request, response) {
-    debugger;
-    businsesLayer.postNewPost(
-      request.body.autherId,
-      request.body.description,
-      request.file.filename,
-      function (succes, err) {
-        if (err) {
-          response.status(380).send({
-            error: {
-              code: 10,
-              message: "couldn't write in file :(",
-              error: err,
-            },
-          });
-        } else {
-          response.status(200).send({
-            succes: {
-              code: 200,
-              message: "The file has been saved :)",
-              succes: succes,
-            },
-          });
+  app.post(
+    "/photos/newPost",
+    upload.single("postPhoto"),
+    function (request, response) {
+      debugger;
+      businsesLayer.postNewPost(
+        request.body.autherId,
+        request.body.description,
+        request.file.filename,
+        function (succes, err) {
+          if (err) {
+            response.status(380).send({
+              error: {
+                code: 10,
+                message: "couldn't write in file :(",
+                error: err,
+              },
+            });
+          } else {
+            response.status(200).send({
+              succes: {
+                code: 200,
+                message: "The file has been saved :)",
+                succes: succes,
+              },
+            });
+          }
         }
-      }
-    );
-  });
+      );
+    }
+  );
 
   // DELETE Post
   app.delete("/photos", function (request, response) {
@@ -220,45 +225,41 @@ const routes = function (app) {
   });
 
   // Edit User Data
-  app.post("/user", upload, function (request, response) {
-    debugger;
-    const x = request.body.userId;
-    const y = request.body.newProfilePicture;
-    const z = request.file.filename;
-    const k = request.body.newProfilePicture.filename;
-    const ll = request.body.userId;
-    debugger;
-
-    const domainProtocol = request.secure ? "https://" : "http://";
-    const domainName = `${domainProtocol}${request.headers.host}`;
-    businsesLayer.updateUserData(
-      domainName,
-      request.body.userId,
-      request.body.name,
-      request.body.birthdate,
-      request.body.password,
-      request.body.profilePicture,
-      function (succes, err) {
-        if (err) {
-          response.status(380).send({
-            error: {
-              code: 10,
-              message: "couldn't update you data :(",
-              error: err,
-            },
-          });
-        } else {
-          response.status(200).send({
-            succes: {
-              code: 200,
-              message: "your data has been updated :)",
-              succes: succes,
-            },
-          });
+  app.post(
+    "/user",
+    upload.single("newProfilePicture"),
+    function (request, response) {
+      const domainProtocol = request.secure ? "https://" : "http://";
+      const domainName = `${domainProtocol}${request.headers.host}`;
+      businsesLayer.updateUserData(
+        domainName,
+        request.body.userId,
+        request.body.name,
+        request.body.birthdate,
+        request.body.password,
+        request.body.newProfilePictureName,
+        function (succes, err) {
+          if (err) {
+            response.status(380).send({
+              error: {
+                code: 10,
+                message: "couldn't update you data :(",
+                error: err,
+              },
+            });
+          } else {
+            response.status(200).send({
+              succes: {
+                code: 200,
+                message: "your data has been updated :)",
+                succes: succes,
+              },
+            });
+          }
         }
-      }
-    );
-  });
+      );
+    }
+  );
 };
 
 module.exports = routes;

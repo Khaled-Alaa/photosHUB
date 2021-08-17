@@ -309,7 +309,7 @@ function updateUserData(
   userName,
   birthdate,
   password,
-  profilePictureName,
+  newProfilePictureName,
   cb
 ) {
   dataLayer.getUsers(function (users, error) {
@@ -320,7 +320,7 @@ function updateUserData(
       const userIndex = users.findIndex((user) =>
         user.id == userId ? user : null
       );
-      user.profilePicture = `${hostName}/uploads/${profilePictureName}`;
+      user.profilePicture = `${hostName}/uploads/${newProfilePictureName}`;
       debugger;
       users[userIndex] = user;
       dataLayer.updateUserData(users, function (err) {

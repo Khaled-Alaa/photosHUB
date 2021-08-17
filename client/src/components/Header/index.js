@@ -32,14 +32,13 @@ class Header extends Component {
   }
 
   onSaveClick(userId, image) {
-    debugger;
     if (image) {
       var formData = new FormData();
-      // var imageName = image.name;
+      var imageName = image.name;
       var imagefile = image;
       formData.append("userId", userId);
-      // formData.append("newProfilePicture", imageName);
-      formData.append("postPhoto", imagefile);
+      formData.append("newProfilePictureName", imageName);
+      formData.append("newProfilePicture", imagefile);
       requester()
         // .post(`user/${userId}`, formData, {
         .post("user", formData, {
@@ -50,11 +49,12 @@ class Header extends Component {
         .then((resp) => {
           debugger;
           if (resp.statusText === "OK") {
-            alert("just refersh ;)");
+            this.setState({
+              showPopup: !this.state.showPopup,
+            });
           }
         })
         .catch((error) => {
-          debugger;
           alert("failed to update your data!");
         });
     }
