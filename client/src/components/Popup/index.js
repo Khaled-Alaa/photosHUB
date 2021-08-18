@@ -70,13 +70,20 @@ class Popup extends Component {
   // }
   render() {
     return (
-      <div className="popup">
-        <div className="popup_inner">
-          <i className="far fa-times-circle closePopup" onClick={this.props.closePopup}></i>
-          <img src={this.checkImage()} alt="uploaded image" className="userPhoto" />
+      <div className="popup-container">
+        <div className="popup-container__popup_inner">
+          <i
+            className="far fa-times-circle popup-container__closePopup"
+            onClick={this.props.closePopup}
+          ></i>
+          <img
+            src={this.checkImage()}
+            alt="uploaded image"
+            className="popup-container__userPhoto"
+          />
           <div>
-            <div className="username">{this.props.user.name}</div>
-            <div className="photodate">{this.props.user.date}</div>
+            <div className="popup-container__username">{this.props.user.name}</div>
+            <div className="popup-container__photodate">{this.props.user.date}</div>
           </div>
           <div>
             <UploadImage
@@ -84,7 +91,7 @@ class Popup extends Component {
               onCreateImageURL={this.createImageURL.bind(this)}
             />
             <button
-              className="addpost-container__post-button"
+              className="popup-container__save-button"
               onClick={() => {
                 this.props.handleSavePost(this.props.user.id, this.state.image);
                 // this.onSaveClick(this.props.user.id, this.state.image);
