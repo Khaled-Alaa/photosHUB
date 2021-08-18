@@ -42,7 +42,7 @@ class Card extends Component {
             <ActionMenu
               cardOwner={this.props.photo.author.id}
               photoId={this.props.photo.id}
-              refershAfterDelete={this.props.refershAfterDelete.bind(this)}
+              refershAfterDelete={this.props.refershAfterDelete}
             />
           </div>
         </div>

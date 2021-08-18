@@ -22,7 +22,8 @@ class Header extends Component {
       showPopup: !this.state.showPopup,
     });
     // var body = document.getElementsByTagName("body");
-    // debugger;
+
+    //to remove home page scroll when the pop up open
     if (document.body.style.overflow === "hidden") {
       document.body.style.overflow = "visible";
     } else {
@@ -52,6 +53,7 @@ class Header extends Component {
             this.setState({
               showPopup: !this.state.showPopup,
             });
+            window.location.reload();
           }
         })
         .catch((error) => {
@@ -86,7 +88,7 @@ class Header extends Component {
           {user.name}
         </Link>
         <Link>
-          <i className="fas fa-user-cog"></i>
+          <i className="fas fa-user-cog Header__setting-icon"></i>
         </Link>
         <Link to="/">
           <i

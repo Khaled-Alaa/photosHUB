@@ -25,6 +25,7 @@ class AddPost extends Component {
       imageURL: "",
     });
   }
+
   render() {
     return (
       <div className="addpost-container">
@@ -61,6 +62,15 @@ class AddPost extends Component {
         </div>
         <div>
           <UploadImage ref={this.ImageUploader} onCreateImageURL={this.createImageURL.bind(this)} />
+          <button
+            className="addpost-container__cancel-post"
+            onClick={() => {
+              this.props.handleCancelPost(this.props.user.id);
+              this.clearState();
+            }}
+          >
+            Cancel
+          </button>
           <button
             className="addpost-container__post-button"
             onClick={() => {

@@ -321,6 +321,8 @@ function updateUserData(
         user.id == userId ? user : null
       );
       user.profilePicture = `${hostName}/uploads/${newProfilePictureName}`;
+      user.date = formatDate(new Date());
+
       debugger;
       users[userIndex] = user;
       dataLayer.updateUserData(users, function (err) {
