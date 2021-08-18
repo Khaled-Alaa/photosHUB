@@ -1,0 +1,81 @@
+.popup-container {
+  position: fixed;
+  // width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+  display: flex;
+  // justify-content: space-between;
+  &__popup_inner {
+    position: absolute;
+    height: 69%;
+    left: 33%;
+    right: 33%;
+    top: 33%;
+    bottom: 33%;
+    margin: auto;
+    background: white;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+  &__closePopup {
+    color: #5c5cf6;
+    font-size: 2rem;
+    padding-top: 0.5rem;
+    margin-left: auto;
+  }
+  &__userPhoto {
+    max-height: 100%;
+    max-width: 100%;
+    width: 25rem;
+    height: 25rem;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__username {
+    color: black;
+  }
+
+  &__photodate {
+    color: black;
+  }
+  &__save-button {
+    float: right;
+    width: 20%;
+    margin: 0 0 0.5rem 0.5rem;
+    height: 2rem;
+    background-color: #5c5cf6;
+    border-radius: 3px;
+    border-style: hidden;
+    color: white;
+    &:hover {
+      background-color: #4646ec;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .popup-container {
+    &__popup_inner {
+      position: absolute;
+      height: 59%;
+      left: 0%;
+      right: 0%;
+      top: 6%;
+      bottom: 33%;
+      margin: auto;
+      background: white;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

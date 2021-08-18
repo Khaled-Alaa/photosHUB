@@ -109,11 +109,7 @@ class HomePage extends Component {
         })
         .then((resp) => {
           if (resp.statusText === "OK") {
-            this.setState({
-              postDescriptionsById: {
-                [userId]: "",
-              },
-            });
+            this.clearDescription(userId);
             this.getAllPhotos();
           }
         })
@@ -137,7 +133,13 @@ class HomePage extends Component {
     //     alert("failed to post the post!");
     //   });
   }
-
+  clearDescription(userId) {
+    this.setState({
+      postDescriptionsById: {
+        [userId]: "",
+      },
+    });
+  }
   render() {
     return (
       <div>
@@ -146,6 +148,7 @@ class HomePage extends Component {
           handleDescription={this.onChangeDescription.bind(this)}
           description={this.state.postDescriptionsById[this.props.user.id]}
           handlePostPost={this.onPostClick.bind(this)}
+          handleCancelPost={this.clearDescription.bind(this)}
         />
         {this.state.photosData.map((photo, index) => (
           <Card
@@ -156,6 +159,7 @@ class HomePage extends Component {
             handleComment={this.onChangeComment.bind(this)}
             comment={this.state.photoCommentsById[photo.id]}
             handlePostComment={this.onCommentClick.bind(this)}
+            refershAfterDelete={this.getAllPhotos.bind(this)}
             key={`${photo.id}` - `${index}`}
           />
         ))}

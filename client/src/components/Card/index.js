@@ -15,13 +15,18 @@ class Card extends Component {
       return 0;
     }
   }
+
   render() {
     return (
       <div className="card" key={this.props.photo.id}>
         <div className="card__header">
           <div className="card__author-container">
             <img
-              src={this.props.photo.author.profilePicture}
+              src={
+                this.props.photo.author.profilePicture
+                  ? this.props.photo.author.profilePicture
+                  : "/assets/images/dummy-profile-pic.png"
+              }
               alt="logo"
               className="card__profilePicture"
             />
@@ -34,7 +39,11 @@ class Card extends Component {
             </div>
           </div>
           <div>
-            <ActionMenu cardOwner={this.props.photo.author.id} photoId={this.props.photo.id} />
+            <ActionMenu
+              cardOwner={this.props.photo.author.id}
+              photoId={this.props.photo.id}
+              refershAfterDelete={this.props.refershAfterDelete}
+            />
           </div>
         </div>
         <div>
@@ -78,7 +87,15 @@ class Card extends Component {
         ))}
         {/* /////////////////// */}
         <div className="card__author-comment">
-          <img src={this.props.user.profilePicture} alt="logo" className="card__profilePicture" />
+          <img
+            src={
+              this.props.user.profilePicture
+                ? this.props.user.profilePicture
+                : "/assets/images/dummy-profile-pic.png"
+            }
+            alt="logo"
+            className="card__profilePicture"
+          />
           <input
             type="text"
             className="card__input-comment"

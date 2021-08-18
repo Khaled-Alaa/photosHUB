@@ -9,7 +9,6 @@ function getUsers(cb) {
     require("path").resolve(__dirname, "./data/users.json"),
     "utf8",
     function (err, data) {
-      debugger;
       if (data) {
         const parsedData = JSON.parse(data);
         cb(parsedData, null);
@@ -22,24 +21,19 @@ function getUsers(cb) {
 
 function getPhotos(cb) {
   try {
-    debugger;
     fs.readFile(
       require("path").resolve(__dirname, "./data/photos.json"),
       "utf8",
       function (err, data) {
-        debugger;
         if (data) {
           const parsedData = JSON.parse(data);
           cb(parsedData, null);
         } else {
           cb(null, err);
         }
-        debugger;
       }
     );
-    debugger;
   } catch (error) {
-    debugger;
   }
 }
 
@@ -98,6 +92,22 @@ function deletePost(photos, cb) {
     }
   );
 }
+
+function updateUserData(users, cb) {
+  //to convert json file to string
+  const jsonString = JSON.stringify(users);
+  // to convert the string data to binary and save it in memory
+  const data = new Uint8Array(Buffer.from(jsonString));
+
+  fs.writeFile(
+    require("path").resolve(__dirname, "./data/users.json"),
+    data,
+    (err) => {
+      cb(err);
+    }
+  );
+}
+
 module.exports = {
   getUsers,
   getPhotos,
@@ -106,4 +116,5 @@ module.exports = {
   postReaction,
   postNewPost,
   deletePost,
+  updateUserData,
 };
