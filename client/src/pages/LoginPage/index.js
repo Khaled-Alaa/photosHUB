@@ -31,7 +31,6 @@ class LoginPage extends Component {
           });
 
           localStorage.setItem("id", this.state.id);
-
           this.props.history.push("/Home");
 
           // this.props.history.push({
@@ -74,7 +73,11 @@ class LoginPage extends Component {
           required
         ></input>
         <br />
-        <input type="submit" value="Login" className="login-form-container__button"></input>
+        <input
+          type="submit"
+          value="Login"
+          className="login-form-container__button"
+        ></input>
         <Link to="/SignUp" className="login-form-container__signup">
           New User?
         </Link>

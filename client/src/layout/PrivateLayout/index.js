@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import requester from "../../helpers/requester";
 import { Switch, Route } from "react-router-dom";
 
+import { connect } from "react-redux";
+import { saveLoggedUser } from "../../Redux/index";
+
 import Header from "../../components/Header";
 import HomePage from "../../pages/HomePage";
 import ProfilePage from "../../pages/ProfilePage";
@@ -19,9 +22,12 @@ class Layout extends Component {
       requester()
         .get(`users/${userId}`)
         .then((resp) => {
+          debugger;
           this.setState({
             user: resp.data,
           });
+          // this.props.loggedUser = resp.data;
+          this.copyUserToStore(resp.data);
         })
         .catch((error) => {
           console.log(error);
@@ -29,6 +35,10 @@ class Layout extends Component {
     } else {
       this.props.history.push("/");
     }
+  }
+
+  copyUserToStore(user) {
+    this.props.loggedUser(user);
   }
 
   render() {
@@ -57,4 +67,10 @@ class Layout extends Component {
   }
 }
 
-export default Layout;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loggedUser: (user) => dispatch(saveLoggedUser(user)),
+  };
+};
+export default connect(null,mapDispatchToProps)(Layout);
+// export default Layout;

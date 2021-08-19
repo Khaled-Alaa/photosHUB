@@ -1,5 +1,7 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
 import requester from "../../helpers/requester";
 
 import Popup from "../Popup";
@@ -11,6 +13,7 @@ class Header extends Component {
     super();
     this.state = {
       showPopup: false,
+      user: {},
     };
   }
   handleLogout() {
@@ -48,12 +51,14 @@ class Header extends Component {
           },
         })
         .then((resp) => {
-          debugger;
           if (resp.statusText === "OK") {
             this.setState({
               showPopup: !this.state.showPopup,
+              user: resp.data,
             });
-            window.location.reload();
+            // to reload the page and replaced with redux
+            // window.location.reload();
+            debugger;
           }
         })
         .catch((error) => {
@@ -100,5 +105,17 @@ class Header extends Component {
     );
   }
 }
+//
+const mapStoreToProps = (store) => {
+  return {
+    loggedUser: store.user,
+  };
+};
 
-export default Header;
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     loggedUser: (user) => dispatch(saveLoggedUser(user)),
+//   };
+// };
+export default connect(mapStoreToProps)(Header);
+// export default Header;

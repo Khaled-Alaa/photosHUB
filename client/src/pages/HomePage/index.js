@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import requester from "../../helpers/requester/index";
+
 import Card from "../../components/Card/index";
 import AddPost from "../../components/AddPost/index";
 
@@ -143,6 +145,15 @@ class HomePage extends Component {
   render() {
     return (
       <div>
+        <div>
+          <div>{this.props.loggedUser.id}</div>
+          <div>{this.props.loggedUser.name}</div>
+          <div>{this.props.loggedUser.email}</div>
+          <div>{this.props.loggedUser.birthdate}</div>
+          <div>{this.props.loggedUser.password}</div>
+          <div>{this.props.loggedUser.profilePicture}</div>
+          <div>{this.props.loggedUser.date}</div>
+        </div>
         <AddPost
           user={this.props.user}
           handleDescription={this.onChangeDescription.bind(this)}
@@ -167,5 +178,13 @@ class HomePage extends Component {
     );
   }
 }
+//
+const mapStoreToProps = (store) => {
+  return {
+    loggedUser: store.user,
+  };
+};
 
-export default HomePage;
+export default connect(mapStoreToProps)(HomePage);
+
+// export default HomePage;
