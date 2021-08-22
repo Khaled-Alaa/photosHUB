@@ -2,12 +2,10 @@ const dataLayer = require("./dataManager");
 
 function checkExisitingUser(email, password, cb) {
   dataLayer.getUsers(function (users, error) {
-    debugger;
     if (users) {
       const user = users.find(
         (user) => email === user.email && password === user.password
       );
-      debugger;
       cb(user, null);
     } else {
       cb(null, error);
@@ -108,7 +106,6 @@ function getUserPhotos(hostName, userId, cb) {
 
 function saveNewUser(name, email, birthdate, password, cb) {
   dataLayer.getUsers(function (users, error) {
-    debugger;
     if (users) {
       const user = users.find((user) => email === user.email);
       if (user) {
@@ -282,15 +279,12 @@ function deletePost(photoId, cb) {
   const x = photoId;
   dataLayer.getPhotos(function (photos, error) {
     if (photos) {
-      debugger;
       newPhotos = photos.filter(function (photo) {
-        debugger;
         return photo.id != photoId;
       });
       /////////////
       //to update the json file with the new photos without the deleted photo
       dataLayer.deletePost(newPhotos, function (err) {
-        debugger;
         if (err) {
           cb(null, err);
         } else {
@@ -313,9 +307,7 @@ function updateUserData(
   cb
 ) {
   dataLayer.getUsers(function (users, error) {
-    debugger;
     if (users) {
-      debugger;
       const user = users.find((user) => (user.id == userId ? user : null));
       const userIndex = users.findIndex((user) =>
         user.id == userId ? user : null
@@ -323,13 +315,12 @@ function updateUserData(
       user.profilePicture = `${hostName}/uploads/${newProfilePictureName}`;
       user.date = formatDate(new Date());
 
-      debugger;
       users[userIndex] = user;
       dataLayer.updateUserData(users, function (err) {
         if (err) {
           cb(null, err);
         } else {
-          cb("succes", null);
+          cb(user, null);
         }
       });
     } else {

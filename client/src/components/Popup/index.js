@@ -16,7 +16,6 @@ class Popup extends Component {
   }
 
   createImageURL(image) {
-    debugger;
     if (image) {
       this.setState({ image, imageURL: URL.createObjectURL(image) });
     }
@@ -31,7 +30,6 @@ class Popup extends Component {
 
   checkImage() {
     if (this.state.imageURL) {
-      debugger;
       return this.state.imageURL;
     } else {
       if (this.props.user.profilePicture) {

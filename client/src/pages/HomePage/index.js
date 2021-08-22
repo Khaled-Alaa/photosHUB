@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import requester from "../../helpers/requester/index";
+
 import Card from "../../components/Card/index";
 import AddPost from "../../components/AddPost/index";
 
@@ -117,21 +119,6 @@ class HomePage extends Component {
           alert("failed to post the post!");
         });
     }
-
-    // requester()
-    //   .post("photos/newPost", {
-    //     autherId: userId,
-    //     description: this.state.postDescriptionsById[userId],
-    //     postPhoto: photo,
-    //   })
-    //   .then((resp) => {
-    //     if (resp.statusText === "OK") {
-    //       this.getAllPhotos();
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     alert("failed to post the post!");
-    //   });
   }
   clearDescription(userId) {
     this.setState({
@@ -168,4 +155,10 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage;
+const mapStoreToProps = (store) => {
+  return {
+    loggedUser: store.user,
+  };
+};
+
+export default connect(mapStoreToProps)(HomePage);

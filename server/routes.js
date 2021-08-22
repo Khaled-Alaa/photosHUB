@@ -19,16 +19,13 @@ const businsesLayer = require("./businesLogic");
 const routes = function (app) {
   // check exisiting user
   app.post("/login", function (request, response) {
-    debugger;
     businsesLayer.checkExisitingUser(
       request.body.email,
       request.body.password,
       function (user, error) {
         if (user) {
-          debugger;
           response.status(200).send(user);
         } else {
-          debugger;
           response.status(500).send(error);
         }
       }
@@ -37,7 +34,6 @@ const routes = function (app) {
 
   // create new user
   app.post("/signup", function (request, response) {
-    debugger;
     businsesLayer.saveNewUser(
       request.body.name,
       request.body.email,
@@ -45,7 +41,6 @@ const routes = function (app) {
       request.body.password,
       function (user, err) {
         if (err) {
-          debugger;
           if (err.error.code === 1) {
             response.status(409).send({
               error: {
@@ -62,7 +57,6 @@ const routes = function (app) {
             });
           }
         } else {
-          debugger;
           response.status(200).send({
             user,
           });
@@ -173,7 +167,6 @@ const routes = function (app) {
     "/photos/newPost",
     upload.single("postPhoto"),
     function (request, response) {
-      debugger;
       businsesLayer.postNewPost(
         request.body.autherId,
         request.body.description,
@@ -238,7 +231,7 @@ const routes = function (app) {
         request.body.birthdate,
         request.body.password,
         request.body.newProfilePictureName,
-        function (succes, err) {
+        function (user, err) {
           if (err) {
             response.status(380).send({
               error: {
@@ -248,13 +241,7 @@ const routes = function (app) {
               },
             });
           } else {
-            response.status(200).send({
-              succes: {
-                code: 200,
-                message: "your data has been updated :)",
-                succes: succes,
-              },
-            });
+            response.status(200).send(user);
           }
         }
       );

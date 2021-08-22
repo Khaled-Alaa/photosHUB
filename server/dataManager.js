@@ -79,7 +79,6 @@ function postNewPost(photos, cb) {
 }
 
 function deletePost(photos, cb) {
-  debugger;
   //to convert json file to string
   const jsonString = JSON.stringify(photos);
   // to convert the string data to binary and save it in memory
