@@ -22,11 +22,9 @@ class Layout extends Component {
       requester()
         .get(`users/${userId}`)
         .then((resp) => {
-          debugger;
           this.setState({
             user: resp.data,
           });
-          // this.props.loggedUser = resp.data;
           this.copyUserToStore(resp.data);
         })
         .catch((error) => {
@@ -72,5 +70,5 @@ const mapDispatchToProps = (dispatch) => {
     loggedUser: (user) => dispatch(saveLoggedUser(user)),
   };
 };
-export default connect(null,mapDispatchToProps)(Layout);
+export default connect(null, mapDispatchToProps)(Layout);
 // export default Layout;

@@ -241,7 +241,6 @@ const routes = function (app) {
               },
             });
           } else {
-            debugger;
             response.status(200).send(user);
           }
         }

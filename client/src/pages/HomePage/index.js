@@ -119,21 +119,6 @@ class HomePage extends Component {
           alert("failed to post the post!");
         });
     }
-
-    // requester()
-    //   .post("photos/newPost", {
-    //     autherId: userId,
-    //     description: this.state.postDescriptionsById[userId],
-    //     postPhoto: photo,
-    //   })
-    //   .then((resp) => {
-    //     if (resp.statusText === "OK") {
-    //       this.getAllPhotos();
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     alert("failed to post the post!");
-    //   });
   }
   clearDescription(userId) {
     this.setState({
@@ -145,15 +130,6 @@ class HomePage extends Component {
   render() {
     return (
       <div>
-        <div>
-          <div>{this.props.loggedUser.id}</div>
-          <div>{this.props.loggedUser.name}</div>
-          <div>{this.props.loggedUser.email}</div>
-          <div>{this.props.loggedUser.birthdate}</div>
-          <div>{this.props.loggedUser.password}</div>
-          <div>{this.props.loggedUser.profilePicture}</div>
-          <div>{this.props.loggedUser.date}</div>
-        </div>
         <AddPost
           user={this.props.user}
           handleDescription={this.onChangeDescription.bind(this)}
@@ -178,7 +154,7 @@ class HomePage extends Component {
     );
   }
 }
-//
+
 const mapStoreToProps = (store) => {
   return {
     loggedUser: store.user,
@@ -186,5 +162,3 @@ const mapStoreToProps = (store) => {
 };
 
 export default connect(mapStoreToProps)(HomePage);
-
-// export default HomePage;

@@ -98,6 +98,7 @@ class ProfilePage extends Component {
         handleComment={this.onChangeComment.bind(this)}
         comment={this.state.photoCommentsById[photo.id]}
         handlePostComment={this.onCommentClick.bind(this)}
+        refershAfterDelete={this.getuserPhotos.bind(this)}
         key={`${photo.id}` - `${index}`}
       />
     ));

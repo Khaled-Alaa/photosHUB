@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import requester from "../../helpers/requester/index";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import "./styles.scss";
 
@@ -16,6 +17,7 @@ class ActionMenu extends Component {
   }
 
   handleDelete(photoId) {
+    debugger;
     requester()
       .delete("photos", {
         data: { photoId: photoId },
@@ -42,11 +44,19 @@ class ActionMenu extends Component {
           <Link to={`/Profile/${this.props.cardOwner}`} className="Header__user-name">
             Visit Profile
           </Link>
-          <a onClick={() => this.handleDelete(this.props.photoId)}>Delete</a>
+          {this.props.cardOwner === this.props.loggedUser.id && (
+            <a onClick={() => this.handleDelete(this.props.photoId)}>Delete</a>
+          )}
         </div>
       </div>
     );
   }
 }
 
-export default ActionMenu;
+const mapStoreToProps = (store) => {
+  return {
+    loggedUser: store.user,
+  };
+};
+
+export default connect(mapStoreToProps)(ActionMenu);

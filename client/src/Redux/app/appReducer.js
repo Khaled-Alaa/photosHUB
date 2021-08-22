@@ -1,11 +1,10 @@
-import { SAVE_LOGGED_USER } from "./appTypes";
+import { SAVE_LOGGED_USER ,UPDATE_LOGGED_USER_DATA} from "./appTypes";
 
 const initialState = {
   user: {},
 };
 
 const appReducer = (state = initialState, action) => {
-  debugger;
   switch (action.type) {
     case SAVE_LOGGED_USER:
       return {
@@ -13,6 +12,11 @@ const appReducer = (state = initialState, action) => {
         user: action.payload,
       };
 
+    case UPDATE_LOGGED_USER_DATA:
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return state;
   }

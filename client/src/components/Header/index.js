@@ -1,8 +1,9 @@
 import { Component } from "react";
+import requester from "../../helpers/requester";
+
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-
-import requester from "../../helpers/requester";
+import { updateLoggedUserData } from "../../Redux/index";
 
 import Popup from "../Popup";
 
@@ -24,7 +25,6 @@ class Header extends Component {
     this.setState({
       showPopup: !this.state.showPopup,
     });
-    // var body = document.getElementsByTagName("body");
 
     //to remove home page scroll when the pop up open
     if (document.body.style.overflow === "hidden") {
@@ -32,7 +32,6 @@ class Header extends Component {
     } else {
       document.body.style.overflow = "hidden";
     }
-    // body.style.overflow = "hidden";
   }
 
   onSaveClick(userId, image) {
@@ -44,7 +43,6 @@ class Header extends Component {
       formData.append("newProfilePictureName", imageName);
       formData.append("newProfilePicture", imagefile);
       requester()
-        // .post(`user/${userId}`, formData, {
         .post("user", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -56,15 +54,20 @@ class Header extends Component {
               showPopup: !this.state.showPopup,
               user: resp.data,
             });
+            this.copyUpdatedUserToStore(resp.data);
+
             // to reload the page and replaced with redux
             // window.location.reload();
-            debugger;
           }
         })
         .catch((error) => {
           alert("failed to update your data!");
         });
     }
+  }
+
+  copyUpdatedUserToStore(user) {
+    this.props.updatedLoggedUser(user);
   }
   render() {
     const { user } = this.props;
@@ -76,12 +79,16 @@ class Header extends Component {
         </Link>
         <span className="Header__profilePictureCropper">
           <img
-            src={user.profilePicture ? user.profilePicture : "/assets/images/dummy-profile-pic.png"}
+            src={
+              this.props.loggedUser.profilePicture
+                ? this.props.loggedUser.profilePicture
+                : "/assets/images/dummy-profile-pic.png"
+            }
             alt="profilePicture"
             className="Header__profilePicture"
             onClick={this.handleProfilePicture.bind(this)}
           />
-          {this.state.showPopup ? (
+                {this.state.showPopup ? (
             <Popup
               user={user}
               handleSavePost={this.onSaveClick.bind(this)}
@@ -105,17 +112,16 @@ class Header extends Component {
     );
   }
 }
-//
+
 const mapStoreToProps = (store) => {
   return {
     loggedUser: store.user,
   };
 };
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     loggedUser: (user) => dispatch(saveLoggedUser(user)),
-//   };
-// };
-export default connect(mapStoreToProps)(Header);
-// export default Header;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updatedLoggedUser: (user) => dispatch(updateLoggedUserData(user)),
+  };
+};
+export default connect(mapStoreToProps, mapDispatchToProps)(Header);
