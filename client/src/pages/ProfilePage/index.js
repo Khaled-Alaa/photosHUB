@@ -90,6 +90,7 @@ class ProfilePage extends Component {
     this.setState({ photoCommentsById: { [photo.id]: e.target.value } });
   }
   render() {
+    debugger
     return this.state.userPhotos.map((photo, index) => (
       <Card
         user={this.props.user}

@@ -1,0 +1,14 @@
+.editing-form-container {
+  padding: 1.5rem;
+  margin: 4rem auto;
+  width: 20rem;
+  background: #fefefe;
+  border-radius: 8px;
+  text-align: center;
+  &__profile-picture {
+    margin: 0 0.5rem 0.5rem 0;
+    height: 12.5rem;
+    width: 12.5rem;
+    border-radius: 50%;
+  }
+}
