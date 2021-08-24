@@ -90,7 +90,7 @@ class Header extends Component {
           />
           {this.state.showPopup ? (
             <Popup
-              user={user}
+              user={this.props.loggedUser}
               handleSavePost={this.onSaveClick.bind(this)}
               closePopup={this.handleProfilePicture.bind(this)}
             />
