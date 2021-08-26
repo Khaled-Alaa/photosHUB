@@ -8,33 +8,18 @@ import Popup from "../Popup";
 import "./styles.scss";
 
 class EditUserData extends Component {
-  //
-  constructor() {
-    super();
-    this.state = {
-      showPopup: false,
-      user: {},
-      name: "",
-      oldPassword: "",
-      newPassword: "",
-      confirmNewPassword: "",
-    };
-  }
-  handleLogout() {
-    window.localStorage.removeItem("id");
-  }
+  state = {
+    showPopup: false,
+    name: "",
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  };
 
   handleProfilePicture() {
     this.setState({
       showPopup: !this.state.showPopup,
     });
-
-    //to remove home page scroll when the pop up open
-    if (document.body.style.overflow === "hidden") {
-      document.body.style.overflow = "visible";
-    } else {
-      document.body.style.overflow = "hidden";
-    }
   }
 
   onSaveClick(userId, image) {
@@ -55,7 +40,6 @@ class EditUserData extends Component {
           if (resp.statusText === "OK") {
             this.setState({
               showPopup: !this.state.showPopup,
-              user: resp.data,
             });
             this.copyUpdatedUserToStore(resp.data);
 
@@ -72,15 +56,30 @@ class EditUserData extends Component {
   copyUpdatedUserToStore(user) {
     this.props.updatedLoggedUser(user);
   }
-  //
-  componentDidUpdate(prevProps, prevState) {
-    debugger;
-    if (prevState.name === "") {
+
+  componentDidMount() {
+    this.setState({
+      name: this.props.user.name,
+    });
+  }
+
+  componentDidUpdate() {
+    const { user } = this.props;
+    const { name } = this.state;
+
+    if (user && user.name && !name) {
       this.setState({
-        name: this.props.loggedUser.name,
+        name: user.name,
       });
     }
   }
+
+  checkNewPassword(newPass, confirmNewPass) {
+    if (newPass === confirmNewPass) {
+      return true;
+    }
+  }
+
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -90,6 +89,39 @@ class EditUserData extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     console.log(this.state);
+    const checkNewPass = this.checkNewPassword(
+      this.state.newPassword,
+      this.state.confirmNewPassword
+    );
+    if (checkNewPass) {
+      var formData = new FormData();
+      formData.append("userId", this.state.user.id);
+      formData.append("name", this.state.name);
+      formData.append("oldPass", this.state.oldPassword);
+      formData.append("newPass", this.state.newPassword);
+      requester()
+        .post("user", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((resp) => {
+          if (resp.statusText === "OK") {
+            this.setState({
+              showPopup: !this.state.showPopup,
+              user: resp.data,
+            });
+            this.copyUpdatedUserToStore(resp.data);
+            // to reload the page and replaced with redux
+            // window.location.reload();
+          }
+        })
+        .catch((error) => {
+          alert("failed to update your data!");
+        });
+    } else {
+      alert("the new password not match confirm new password");
+    }
     // requester()
     //   .post("signup", {
     //     name: this.state.name,
@@ -113,7 +145,7 @@ class EditUserData extends Component {
       <form onSubmit={this.handleSubmit} className="editing-form-container">
         <div
           className="editing-form-container__profile-picture"
-          style={{ backgroundImage: 'url("' + this.props.loggedUser.profilePicture + '")' }}
+          style={{ backgroundImage: 'url("' + this.props.user.profilePicture + '")' }}
         >
           <i
             className="fas fa-camera editing-form-container__edit-icon"
@@ -122,7 +154,7 @@ class EditUserData extends Component {
         </div>
         {this.state.showPopup ? (
           <Popup
-            user={this.props.loggedUser}
+            user={this.props.user}
             handleSavePost={this.onSaveClick.bind(this)}
             closePopup={this.handleProfilePicture.bind(this)}
           />
@@ -138,7 +170,6 @@ class EditUserData extends Component {
           onChange={this.handleChange}
           value={this.state.name}
           className="editing-form-container__input"
-          required
         ></input>
         <h5 htmlFor="password" className="editing-form-container__password">
           Old Password:
@@ -151,7 +182,6 @@ class EditUserData extends Component {
           minLength="8"
           onChange={this.handleChange}
           className="editing-form-container__input"
-          required
         ></input>
         <h5 htmlFor="password" className="editing-form-container__password">
           New Password:
@@ -164,10 +194,9 @@ class EditUserData extends Component {
           minLength="8"
           onChange={this.handleChange}
           className="editing-form-container__input"
-          required
         ></input>
         <h5 htmlFor="password" className="editing-form-container__password">
-          New Password:
+          Confirm New Password:
         </h5>
         <input
           type="password"
@@ -177,7 +206,6 @@ class EditUserData extends Component {
           minLength="8"
           onChange={this.handleChange}
           className="editing-form-container__input"
-          required
         ></input>
         <br />
         <input
@@ -190,18 +218,16 @@ class EditUserData extends Component {
   }
 }
 
-const mapStoreToProps = (store) => {
-  return {
-    loggedUser: store.user,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     updatedLoggedUser: (user) => dispatch(updateLoggedUserData(user)),
   };
 };
 
-export default connect(mapStoreToProps, mapDispatchToProps)(EditUserData);
+const mapStoreToProps = (store) => {
+  return {
+    user: store.user,
+  };
+};
 
-// export default EditUserData;
+export default connect(mapStoreToProps, mapDispatchToProps)(EditUserData);

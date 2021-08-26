@@ -29,7 +29,6 @@ class Popup extends Component {
   }
 
   checkImage() {
-    debugger;
     if (this.state.imageURL) {
       return this.state.imageURL;
     } else {

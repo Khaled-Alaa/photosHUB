@@ -301,8 +301,8 @@ function updateUserData(
   hostName,
   userId,
   userName,
-  birthdate,
-  password,
+  oldPass,
+  newPass,
   newProfilePictureName,
   cb
 ) {

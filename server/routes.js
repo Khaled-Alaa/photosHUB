@@ -228,8 +228,8 @@ const routes = function (app) {
         domainName,
         request.body.userId,
         request.body.name,
-        request.body.birthdate,
-        request.body.password,
+        request.body.oldPass,
+        request.body.newPass,
         request.body.newProfilePictureName,
         function (user, err) {
           if (err) {

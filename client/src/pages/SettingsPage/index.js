@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import EditUserData from "../../components/EditUserData/";
 import "./styles.scss";
 
@@ -11,5 +12,4 @@ class SettingsPage extends Component {
     );
   }
 }
-
 export default SettingsPage;
