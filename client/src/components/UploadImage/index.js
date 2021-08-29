@@ -55,7 +55,11 @@ class UploadImage extends Component {
           onChange={this.loadImage.bind(this)}
           className="addpost-container__upload-input"
         />
-        <button className="addpost-container__upload-photo" onClick={this.onUpload.bind(this)}>
+        <button
+          type="button"
+          className="addpost-container__upload-photo"
+          onClick={this.onUpload.bind(this)}
+        >
           Add Photo
         </button>
       </>

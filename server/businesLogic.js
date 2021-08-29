@@ -307,13 +307,20 @@ function updateUserData(
   cb
 ) {
   dataLayer.getUsers(function (users, error) {
+    debugger;
     if (users) {
       const user = users.find((user) => (user.id == userId ? user : null));
       const userIndex = users.findIndex((user) =>
         user.id == userId ? user : null
       );
-      user.profilePicture = `${hostName}/uploads/${newProfilePictureName}`;
-      user.date = formatDate(new Date());
+      if (newProfilePictureName) {
+        user.profilePicture = `${hostName}/uploads/${newProfilePictureName}`;
+        user.date = formatDate(new Date());
+      } else if (userName) {
+        user.name = userName;
+      } else if (oldPass === user.password && newPass) {
+        user.password = newPass;
+      }
 
       users[userIndex] = user;
       dataLayer.updateUserData(users, function (err) {

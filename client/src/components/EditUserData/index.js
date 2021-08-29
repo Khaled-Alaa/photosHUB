@@ -75,8 +75,10 @@ class EditUserData extends Component {
   }
 
   checkNewPassword(newPass, confirmNewPass) {
-    if (newPass === confirmNewPass) {
+    if (newPass === confirmNewPass && newPass !== "") {
       return true;
+    } else {
+      return false;
     }
   }
 
@@ -87,57 +89,39 @@ class EditUserData extends Component {
   };
 
   handleSubmit = (e) => {
+    debugger;
     e.preventDefault();
     console.log(this.state);
+    if(this.state.newPassword){
+debugger
+    }
     const checkNewPass = this.checkNewPassword(
       this.state.newPassword,
       this.state.confirmNewPassword
     );
+    var formData = new FormData();
+    formData.append("userId", this.props.user.id);
+    formData.append("name", this.state.name);
     if (checkNewPass) {
-      var formData = new FormData();
-      formData.append("userId", this.state.user.id);
-      formData.append("name", this.state.name);
       formData.append("oldPass", this.state.oldPassword);
       formData.append("newPass", this.state.newPassword);
-      requester()
-        .post("user", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((resp) => {
-          if (resp.statusText === "OK") {
-            this.setState({
-              showPopup: !this.state.showPopup,
-              user: resp.data,
-            });
-            this.copyUpdatedUserToStore(resp.data);
-            // to reload the page and replaced with redux
-            // window.location.reload();
-          }
-        })
-        .catch((error) => {
-          alert("failed to update your data!");
-        });
     } else {
       alert("the new password not match confirm new password");
     }
-    // requester()
-    //   .post("signup", {
-    //     name: this.state.name,
-    //     email: this.state.email,
-    //     birthdate: this.state.birthdate,
-    //     password: this.state.password,
-    //   })
-    //   .then((resp) => {
-    //     if (resp.statusText === "OK") {
-    //       localStorage.setItem("id", resp.data.user.id);
-    //       this.props.history.push("/Home");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     alert("This email is already exist!");
-    //   });
+    requester()
+      .post("user", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((resp) => {
+        if (resp.statusText === "OK") {
+          this.copyUpdatedUserToStore(resp.data);
+        }
+      })
+      .catch((error) => {
+        alert("failed to update your data!");
+      });
   };
 
   render() {
@@ -218,15 +202,15 @@ class EditUserData extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updatedLoggedUser: (user) => dispatch(updateLoggedUserData(user)),
-  };
-};
-
 const mapStoreToProps = (store) => {
   return {
     user: store.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updatedLoggedUser: (user) => dispatch(updateLoggedUserData(user)),
   };
 };
 

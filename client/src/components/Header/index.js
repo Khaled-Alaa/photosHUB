@@ -70,7 +70,7 @@ class Header extends Component {
     this.props.updatedLoggedUser(user);
   }
   render() {
-    const { user } = this.props;
+    // const { user } = this.props;
     return (
       <div className="Header">
         <img src="/assets/images/logo2.png" alt="logo" className="Header__logo" />
@@ -97,7 +97,7 @@ class Header extends Component {
           ) : null}
         </span>
         <Link to={`/profile/${localStorage.getItem("id")}`} className="Header__user-name">
-          {user.name}
+          {this.props.loggedUser.name}
         </Link>
         <Link to={`/settings/${localStorage.getItem("id")}`}>
           <i className="fas fa-user-cog Header__setting-icon"></i>
