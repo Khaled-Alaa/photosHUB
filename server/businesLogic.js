@@ -316,9 +316,11 @@ function updateUserData(
       if (newProfilePictureName) {
         user.profilePicture = `${hostName}/uploads/${newProfilePictureName}`;
         user.date = formatDate(new Date());
-      } else if (userName) {
+      }
+      if (userName) {
         user.name = userName;
-      } else if (oldPass === user.password && newPass) {
+      }
+      if (oldPass === user.password && newPass) {
         user.password = newPass;
       }
 

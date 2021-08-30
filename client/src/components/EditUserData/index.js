@@ -14,6 +14,7 @@ class EditUserData extends Component {
     oldPassword: "",
     newPassword: "",
     confirmNewPassword: "",
+    isDirtyForm: false,
   };
 
   handleProfilePicture() {
@@ -66,10 +67,10 @@ class EditUserData extends Component {
   componentDidUpdate() {
     const { user } = this.props;
     const { name } = this.state;
-
-    if (user && user.name && !name) {
+    if (this.state.isDirtyForm == false && user && user.name && !name) {
       this.setState({
-        name: user.name,
+        name: this.props.user.name,
+        isDirtyForm: true,
       });
     }
   }
@@ -89,25 +90,22 @@ class EditUserData extends Component {
   };
 
   handleSubmit = (e) => {
-    debugger;
     e.preventDefault();
-    console.log(this.state);
-    if(this.state.newPassword){
-debugger
-    }
     const checkNewPass = this.checkNewPassword(
       this.state.newPassword,
       this.state.confirmNewPassword
     );
     var formData = new FormData();
+    if (this.state.newPassword) {
+      if (checkNewPass) {
+        formData.append("oldPass", this.state.oldPassword);
+        formData.append("newPass", this.state.newPassword);
+      } else {
+        alert("the new password not match confirm new password");
+      }
+    }
     formData.append("userId", this.props.user.id);
     formData.append("name", this.state.name);
-    if (checkNewPass) {
-      formData.append("oldPass", this.state.oldPassword);
-      formData.append("newPass", this.state.newPassword);
-    } else {
-      alert("the new password not match confirm new password");
-    }
     requester()
       .post("user", formData, {
         headers: {
@@ -117,6 +115,8 @@ debugger
       .then((resp) => {
         if (resp.statusText === "OK") {
           this.copyUpdatedUserToStore(resp.data);
+          e.target.reset();
+          alert("Your data is updated")
         }
       })
       .catch((error) => {
