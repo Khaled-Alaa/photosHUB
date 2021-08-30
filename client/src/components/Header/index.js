@@ -70,11 +70,11 @@ class Header extends Component {
     this.props.updatedLoggedUser(user);
   }
   render() {
-    const { user } = this.props;
+    // const { user } = this.props;
     return (
       <div className="Header">
         <img src="/assets/images/logo2.png" alt="logo" className="Header__logo" />
-        <Link to="/Home" className="Header__site-title">
+        <Link to="/home" className="Header__site-title">
           <h5>Photos HUB</h5>
         </Link>
         <span className="Header__profilePictureCropper">
@@ -88,18 +88,18 @@ class Header extends Component {
             className="Header__profilePicture"
             onClick={this.handleProfilePicture.bind(this)}
           />
-                {this.state.showPopup ? (
+          {this.state.showPopup ? (
             <Popup
-              user={user}
+              user={this.props.loggedUser}
               handleSavePost={this.onSaveClick.bind(this)}
               closePopup={this.handleProfilePicture.bind(this)}
             />
           ) : null}
         </span>
-        <Link to={`/Profile/${localStorage.getItem("id")}`} className="Header__user-name">
-          {user.name}
+        <Link to={`/profile/${localStorage.getItem("id")}`} className="Header__user-name">
+          {this.props.loggedUser.name}
         </Link>
-        <Link>
+        <Link to={`/settings/${localStorage.getItem("id")}`}>
           <i className="fas fa-user-cog Header__setting-icon"></i>
         </Link>
         <Link to="/">

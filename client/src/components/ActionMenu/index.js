@@ -17,7 +17,6 @@ class ActionMenu extends Component {
   }
 
   handleDelete(photoId) {
-    debugger;
     requester()
       .delete("photos", {
         data: { photoId: photoId },

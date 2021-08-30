@@ -1,8 +1,13 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import LoginPage from "./pages/LoginPage/index";
-import Layout from "./layout/PrivateLayout/index";
-import SignupPage from "./pages/SignupPage/index";
+import Layout from "./layout/PrivateLayout";
+
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import HomePage from "./pages/HomePage";
+import ProfilePage from "./pages/ProfilePage";
+import SettingsPage from "./pages/SettingsPage";
+
 import "./App.css";
 
 function App() {
@@ -11,9 +16,44 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/" render={(props) => <LoginPage {...props} />} />
-          <Route path="/SignUp" render={(props) => <SignupPage {...props} />} />
-          <Route path="/Home" render={(props) => <Layout {...props} />} />
-          <Route path="/Profile" render={(props) => <Layout {...props} />} />
+          <Route path="/signup" render={(props) => <SignupPage {...props} />} />
+
+          <Route
+            path="/home"
+            render={(props) => {
+              return (
+                <Layout
+                  route={{ match: props.match, history: props.history, location: props.location }}
+                >
+                  <HomePage />
+                </Layout>
+              );
+            }}
+          />
+          <Route
+            path="/Profile/:id"
+            render={(props) => {
+              return (
+                <Layout
+                  route={{ match: props.match, history: props.history, location: props.location }}
+                >
+                  <ProfilePage />
+                </Layout>
+              );
+            }}
+          />
+          <Route
+            path="/settings"
+            render={(props) => {
+              return (
+                <Layout
+                  route={{ match: props.match, history: props.history, location: props.location }}
+                >
+                  <SettingsPage />
+                </Layout>
+              );
+            }}
+          />
         </Switch>
       </Router>
     </div>
@@ -21,3 +61,23 @@ function App() {
 }
 
 export default App;
+
+{
+  /* <Switch>
+          <Route
+            path="/settings/:id"
+            render={(route) => {
+              return <EditPage user={this.state.user} route={route} />;
+            }}
+          />
+          <Route path="/home">
+            
+          </Route>
+          <Route
+            path="/profile/:id"
+            render={(route) => {
+              return <ProfilePage user={this.state.user} route={route} />;
+            }}
+          />
+        </Switch> */
+}

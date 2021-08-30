@@ -6,8 +6,6 @@ import { connect } from "react-redux";
 import { saveLoggedUser } from "../../Redux/index";
 
 import Header from "../../components/Header";
-import HomePage from "../../pages/HomePage";
-import ProfilePage from "../../pages/ProfilePage";
 
 import "./styles.scss";
 
@@ -31,7 +29,7 @@ class Layout extends Component {
           console.log(error);
         });
     } else {
-      this.props.history.push("/");
+      this.props.route.history.push("/");
     }
   }
 
@@ -43,23 +41,11 @@ class Layout extends Component {
     return (
       <div>
         <Header user={this.state.user} />
-        <Switch>
-          <Route path="/Home">
-            <HomePage user={this.state.user} />
-          </Route>
-          <Route
-            path="/Profile/:id"
-            render={(route) => {
-              return <ProfilePage user={this.state.user} route={route} />;
-            }}
-          />
-          {/* <Route
-            path="/EditProfile/:id"
-            render={(route) => {
-              return <ProfilePage user={this.state.user} route={route} />;
-            }}
-          /> */}
-        </Switch>
+        {React.cloneElement(
+          this.props.children,
+          { user: this.state.user, route: { ...this.props.route } },
+          null
+        )}
       </div>
     );
   }

@@ -31,10 +31,10 @@ class LoginPage extends Component {
           });
 
           localStorage.setItem("id", this.state.id);
-          this.props.history.push("/Home");
+          this.props.history.push("/home");
 
           // this.props.history.push({
-          //   pathname: "/Home",
+          //   pathname: "/home",
           //   userName: this.state.name,
           // });
         }

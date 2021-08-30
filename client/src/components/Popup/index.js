@@ -89,6 +89,7 @@ class Popup extends Component {
               onCreateImageURL={this.createImageURL.bind(this)}
             />
             <button
+              type="button"
               className="popup-container__save-button"
               onClick={() => {
                 this.props.handleSavePost(this.props.user.id, this.state.image);
